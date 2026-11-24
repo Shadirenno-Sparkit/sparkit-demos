@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A clickable demo of the Etsy Seller Profit and Fee Tracker by Sparkit, with sample data.">
+<meta property="og:title" content="Etsy Seller Profit and Fee Tracker demo by Sparkit">
+<meta property="og:description" content="A clickable demo of the Etsy Seller Profit and Fee Tracker by Sparkit, with sample data.">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="robots" content="noindex">
+<title>Etsy Seller Profit and Fee Tracker Demo | Sparkit</title>
+<style id="sp-demo-css">
+:root{--sp-ind:#4047C9;--sp-ind-d:#3439A5;--sp-ind-dd:#262A7E;--sp-ink:#161A3A;--sp-soft:#EEF0FF;--sp-line:#D9DCF5}
+body{padding-top:env(safe-area-inset-top,0px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:90;background:var(--sp-ind-dd)}
+.sp-top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40}
+.sp-strip{display:flex;align-items:center;justify-content:center;gap:8px;background:#EEF0FF;color:#262A7E;border-bottom:1px solid #D9DCF5;padding:6px 16px;font:500 12.5px/1.35 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center}
+.sp-strip .sp-tag{flex:0 0 auto;background:#4047C9;color:#fff;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.sp-bar{display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,var(--sp-ind-dd),var(--sp-ind));color:#fff;padding:9px max(16px,env(safe-area-inset-right,0px)) 9px max(16px,env(safe-area-inset-left,0px));font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.sp-tile{width:30px;height:30px;flex:0 0 30px;display:block}
+.sp-id{min-width:0;flex:1;line-height:1.2}
+.sp-id b{display:block;font-size:14px;font-weight:700;letter-spacing:.1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-id span{display:block;font-size:12px;color:#D6D9FF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-b{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:7px 14px;border-radius:8px;font:600 13px/1 Inter,system-ui,sans-serif;cursor:pointer;text-decoration:none;white-space:nowrap;border:1px solid transparent}
+.sp-short{display:none}
+.sp-b.ghost{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.35)}
+.sp-b.ghost:hover{background:rgba(255,255,255,.2)}
+.sp-b.cta{background:#fff;color:var(--sp-ind-d)}
+.sp-b.cta:hover{background:var(--sp-soft)}
+.sp-b.pri{background:var(--sp-ind);color:#fff}
+.sp-b.pri:hover{background:var(--sp-ind-d)}
+.sp-b.sec{background:#fff;color:var(--sp-ink);border-color:var(--sp-line)}
+.sp-b.sec:hover{background:var(--sp-soft)}
+.sp-b:focus-visible{outline:3px solid #FFD25C;outline-offset:2px}
+.sp-note{background:var(--sp-soft);border:1px solid var(--sp-line);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;color:var(--sp-ink);font-size:13px}
+.sp-note b{color:var(--sp-ind-d)}
+.sp-spot{position:fixed;z-index:70;border-radius:12px;box-shadow:0 0 0 3px var(--sp-ind),0 0 0 9999px rgba(14,16,40,.55);pointer-events:none;transition:all .25s ease}
+.sp-shade{position:fixed;inset:0;z-index:69;background:transparent}
+.sp-touring #main{padding-bottom:70vh!important}
+.sp-shade.dim{background:rgba(14,16,40,.55)}
+.rd-out,td.sp-nw{white-space:nowrap}
+#main .tw td:not(.sp-nw),.sp-pv-body td:not(.sp-nw){min-width:190px}
+.sp-card{position:fixed;z-index:71;width:min(360px,calc(100vw - 32px));background:#fff;color:var(--sp-ink);border-radius:14px;box-shadow:0 18px 50px rgba(10,12,40,.35);padding:16px 18px 14px;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.sp-card .k{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sp-ind)}
+.sp-card h3{margin:4px 0 6px;font-size:17px;line-height:1.25;color:var(--sp-ink);text-wrap:balance}
+.sp-card p{margin:0 0 12px;font-size:14px;line-height:1.5;color:#3A3F5C}
+.sp-card .acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sp-card .acts .sp-skip{margin-left:auto;background:none;border:0;color:#6A6F8C;font:600 13px Inter,system-ui,sans-serif;cursor:pointer;padding:6px}
+.sp-dots{display:flex;gap:5px;margin-bottom:10px}
+.sp-dots i{width:18px;height:4px;border-radius:2px;background:var(--sp-line)}
+.sp-dots i.on{background:var(--sp-ind)}
+.sp-card.dock{left:50%!important;top:auto!important;bottom:12px;transform:translateX(-50%);width:min(940px,calc(100vw - 48px));display:grid;grid-template-columns:1fr auto;column-gap:28px;align-items:center;padding:14px 20px}
+.sp-card.dock>*{grid-column:1}
+.sp-card.dock h3{margin:2px 0 4px}
+.sp-card.dock p{margin:0}
+.sp-card.dock .acts{grid-column:2;grid-row:1/span 4;flex-wrap:nowrap}
+.sp-card.dock .acts .sp-skip{margin-left:4px}
+.sp-card.center{left:50%!important;top:50%!important;transform:translate(-50%,-50%);width:min(420px,calc(100vw - 32px));text-align:left}
+.sp-card .big{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.sp-card .big svg{width:46px;height:46px;flex:0 0 46px}
+.sp-card ul{margin:0 0 14px;padding-left:18px;font-size:14px;line-height:1.55;color:#3A3F5C}
+.sp-pv{position:fixed;inset:0;z-index:80;background:rgba(14,16,40,.6);display:flex;align-items:flex-start;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) 12px 24px;overflow:auto}
+.sp-pv-in{background:#fff;color:#000;border-radius:12px;width:min(900px,100%);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.sp-pv-hd{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #e3e5ef;font:600 14px Inter,system-ui,sans-serif;color:var(--sp-ink)}
+.sp-pv-hd small{display:block;font-weight:400;color:#6A6F8C;font-size:12px}
+.sp-pv-body{padding:18px 20px;font-size:12px;overflow-x:auto}
+.sp-pv-body h1{font-size:20px;margin:0 0 4px}
+.sp-pv-body table{border:1px solid #999;width:100%;border-collapse:collapse}
+.sp-pv-body th{background:#eee;color:#000;white-space:nowrap}
+.sp-pv-body td,.sp-pv-body th{border-bottom:1px solid #ccc;padding:4px 6px}
+.sp-pv-body .clog{font-size:11px}
+.sp-pv-body .clog td,.sp-pv-body .clog th{border:1px solid #999;padding:3px 5px}
+.sp-pv-body .clog tr.blank td{height:26px}
+.sp-toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:85;background:var(--sp-ink);color:#fff;padding:10px 16px;border-radius:10px;font:500 13px/1.4 Inter,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:calc(100vw - 32px)}
+@media (max-width:640px){
+ .sp-id span{display:none}
+ .sp-long{display:none}.sp-short{display:inline}
+ .sp-id b{font-size:13px}
+ #main .g4{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #main .kpi{padding:12px}
+ #main .kpi .v{font-size:20px}
+ .sp-bar{gap:8px}
+ .sp-strip{font-size:12px;padding:5px 12px}
+ .sp-strip .sp-more{display:none}
+ .sp-b{padding:7px 10px}
+ .sp-card:not(.center){left:12px!important;right:12px;top:auto!important;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto}
+ .sp-note{font-size:12.5px;padding:8px 12px}
+ .sp-note .sp-b{display:none}
+}
+@media (prefers-reduced-motion:reduce){.sp-spot{transition:none}}
+@media print{.sp-top,.sp-bar,.sp-spot,.sp-card,.sp-shade{display:none!important}}
+</style>
+<div class="sp-top" id="spBar" role="banner">
+<style>
+:root{--accent:#2563EB;--ink:#16203a;--muted:#5d677d;--line:#dde3ec;--bg:#f5f7fb;--card:#fff;--good:#e3f5ea;--goodt:#166534;--warn:#fff4d6;--warnt:#7a5300;--bad:#fde4e6;--badt:#9f1d2c;--soft:#eef3ff}
+*{box-sizing:border-box}html,body{margin:0}body{font:15px/1.45 Inter,"Segoe UI",system-ui,-apple-system,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,input,select{font:inherit;color:inherit}
+.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:14px;padding:10px 22px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.mark{width:34px;height:34px;border-radius:9px;background:var(--accent);display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;flex:none}
+.brand b{font-size:16px;white-space:nowrap}.brand small{display:block;color:var(--muted);font-size:12px}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:13px;padding:5px 11px;border-radius:999px;background:var(--bg);color:var(--muted);white-space:nowrap}
+.status .dot{width:8px;height:8px;border-radius:50%;background:#9aa3b5}
+.status.good{background:var(--good);color:var(--goodt)}.status.good .dot{background:#16a34a}
+.status.warn{background:var(--warn);color:var(--warnt)}.status.warn .dot{background:#d97706}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 14px;cursor:pointer;font-weight:600;font-size:14px;line-height:1.2}
+.btn:hover{border-color:#b8c2d3}.btn:focus-visible,.tab:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 35%,transparent);outline-offset:1px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.primary:hover{filter:brightness(.95)}
+.btn.danger{color:var(--badt);border-color:#f0c2c8}.btn.danger:hover{background:var(--bad)}
+.btn.big{padding:12px 20px;font-size:15px}.btn.ghost{background:transparent}
+.link{border:0;background:none;color:var(--accent);font-weight:600;cursor:pointer;padding:0;text-decoration:underline}
+nav{display:flex;gap:2px;padding:0 16px;overflow-x:auto}
+.tab{border:0;background:none;padding:10px 12px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+.tab.on{color:var(--ink);border-bottom-color:var(--accent)}
+main{max-width:1240px;margin:0 auto;padding:22px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
+.ph{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap}
+h1{font-size:34px;line-height:1.1;margin:6px 0 10px}h2{font-size:20px;margin:0}h3{font-size:16px;margin:0 0 8px}
+.sub{color:var(--muted);margin:4px 0 0;font-size:14px;max-width:720px}
+.filters{display:flex;gap:16px;align-items:end;flex-wrap:wrap;margin:6px 0 12px;font-size:13px;color:var(--muted)}
+.filters label{display:flex;flex-direction:column;gap:4px}.filters select,.filters input{padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;min-width:150px}
+.count{margin-left:auto}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:10px;max-height:68vh}
+table.grid{border-collapse:collapse;width:100%;font-size:14px}
+.grid th{position:sticky;top:0;background:#f0f3f8;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap;z-index:1}
+.grid td{border-bottom:1px solid #eef1f6;padding:2px 4px;vertical-align:middle}
+.grid tfoot td{background:#f8fafc;padding:9px 8px;border-top:2px solid var(--line);position:sticky;bottom:0}
+.grid input,.grid select{width:100%;border:1px solid transparent;background:transparent;padding:6px;border-radius:6px;min-width:90px}
+.grid input:hover,.grid select:hover{border-color:var(--line)}.grid input:focus,.grid select:focus{background:#fff;border-color:var(--accent);outline:none}
+.grid td.text input{min-width:170px}.grid td.date input{min-width:140px}
+.grid td.money,.grid th.money,.grid td.number,.grid th.number,.grid td.percent,.grid th.percent{text-align:right}
+.grid td.money input,.grid td.number input,.grid td.percent input{text-align:right}
+.grid td.check{text-align:center}.grid td.check input{width:18px;height:18px;min-width:0}
+.calc{display:block;padding:6px;white-space:nowrap;font-variant-numeric:tabular-nums;color:#33405c}.calc.neg{color:var(--badt)}
+td.comp{background:#fafbfe}
+.del{border:0;background:none;color:#a0a8b8;font-size:20px;cursor:pointer;width:30px;height:30px;border-radius:6px}.del:hover{background:var(--bad);color:var(--badt)}
+th.x,td.x{width:36px;text-align:center}
+.empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px}
+.more{text-align:center;margin-top:12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.kpi span{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:700}
+.kpi b{display:block;font-size:28px;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.kpi small{color:var(--muted);font-size:13px}
+.kpi.hi{background:var(--accent);border-color:var(--accent);color:#fff}.kpi.hi span,.kpi.hi small{color:rgba(255,255,255,.85)}
+.cols2{display:grid;grid-template-columns:1.25fr 1fr;gap:18px}@media(max-width:900px){.cols2{grid-template-columns:1fr}}
+.bars{display:flex;flex-direction:column;gap:9px}
+.brow{display:grid;grid-template-columns:150px 1fr 96px;gap:10px;align-items:center;font-size:14px}
+.brow .lab{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.track{background:#eef1f6;border-radius:6px;height:14px;overflow:hidden}.fill{height:100%;background:var(--accent);border-radius:6px}
+.fill.alt{background:#94a3b8}.fill.good{background:#16a34a}.fill.bad{background:#dc2626}
+.brow .val{text-align:right;font-variant-numeric:tabular-nums}
+.months{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;align-items:end;height:170px;padding-top:8px}
+.mcol{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:2px;font-size:11px;color:var(--muted)}
+.mstack{width:70%;display:flex;flex-direction:column;justify-content:flex-end;height:130px;gap:2px}
+.mbar{width:100%;border-radius:4px 4px 0 0;background:var(--accent);min-height:0}.mbar.alt{background:#cbd5e1;border-radius:4px}
+.legend{display:flex;gap:16px;font-size:13px;color:var(--muted);margin-top:8px}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+table.simple{border-collapse:collapse;width:100%;font-size:14px}
+.simple th{text-align:left;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.03em;padding:8px;border-bottom:1px solid var(--line)}
+.simple td{padding:9px 8px;border-bottom:1px solid #eef1f6;font-variant-numeric:tabular-nums}
+.simple td.r,.simple th.r{text-align:right}.simple tr.tot td{font-weight:700;border-top:2px solid var(--line)}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700}
+.pill.good{background:var(--good);color:var(--goodt)}.pill.warn{background:var(--warn);color:var(--warnt)}.pill.bad{background:var(--bad);color:var(--badt)}.pill.neutral{background:#eef1f6;color:var(--muted)}
+fieldset{border:1px solid var(--line);border-radius:12px;padding:6px 18px 14px;margin:0 0 16px}legend{font-weight:700;padding:0 6px}
+.field{display:grid;grid-template-columns:300px 220px 1fr;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid #f0f2f6}
+.field:last-child{border-bottom:0}.field label{font-weight:600}.fin{display:flex;align-items:center;gap:6px}
+.field input[type=text],.field input[type=number],.field select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.field input[type=checkbox]{width:20px;height:20px}.help{color:var(--muted);font-size:13px;margin:0}.unit{color:var(--muted)}
+@media(max-width:900px){.field{grid-template-columns:1fr}}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px;margin-bottom:18px}
+@media(max-width:900px){.hero{grid-template-columns:1fr}}
+.eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:800;color:var(--accent);margin:0}
+.lead{font-size:17px;color:#3a4560;margin:0 0 22px;max-width:560px}.cta{display:flex;gap:10px;flex-wrap:wrap}
+.steps{list-style:none;counter-reset:s;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:38px 1fr;column-gap:12px;background:var(--soft);border-radius:12px;padding:14px}
+.steps li::before{content:counter(s);grid-row:span 2;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800}
+.steps span{color:#3a4560;font-size:14px}
+.cards3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:18px}
+.feat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}.feat b{display:block;margin-bottom:4px}.feat span{color:var(--muted);font-size:14px}
+.note{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:14px 16px;font-size:14px;color:#3a4560}
+.callout{background:var(--soft);border-radius:12px;padding:14px 16px;font-size:14px;margin-top:12px}
+.callout.warn{background:var(--warn);color:var(--warnt)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:#16203a;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;max-width:92vw;transition:.25s;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}.toast.bad{background:#9f1d2c}.toast .link{color:#9cc2ff;margin-left:6px}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;place-items:center;z-index:60}.modal.show{display:grid}
+.mbox{background:#fff;border-radius:16px;padding:22px;max-width:440px;width:92vw}.mbox p{color:var(--muted)}.mrow{display:flex;justify-content:flex-end;gap:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+#printhead{display:none}
+.foot{max-width:1240px;margin:0 auto;padding:0 22px 30px;color:#8a93a6;font-size:12px}
+@media print{.top,.cta,.tools,.filters,.del,.more,.toast,.modal,.foot,th.x,td.x{display:none!important}body{background:#fff}main{padding:0;max-width:none}.panel,.kpi,.hero{break-inside:avoid;border-color:#ccc}#printhead{display:block;font-weight:700;margin:0 0 12px}.tablewrap{max-height:none;overflow:visible}.grid input,.grid select{border:0;padding:2px}}
+@media(max-width:640px){.bar{padding:10px 14px}main{padding:14px}.brow{grid-template-columns:100px 1fr 80px}.hero{padding:22px}h1{font-size:28px}}
+</style>
+<style>:root{--dk-ink:#153c3a;--dk-accent:#12685c;--dk-paper:#f6f5ef;--dk-wash:#e4f1e9;--dk-line:#cfd9d1;--accent:var(--dk-accent)!important;--blue:var(--dk-accent);--slate:var(--dk-ink)}
+body{background:var(--dk-paper);color:#203736;font-family:system-ui,-apple-system,sans-serif}
+.desk{color:#183633;max-width:1120px;margin:0 auto}.dk-hero{padding:clamp(20px,4vw,46px);background:var(--dk-ink);border-radius:16px;color:white;margin:0 0 16px}.dk-hero span{font-size:.8rem;letter-spacing:.09em;text-transform:uppercase;color:#e3ebe5}.dk-hero h1{font:normal clamp(31px,4vw,54px)/1.08 Georgia,serif;max-width:23ch;letter-spacing:-.035em;color:white;margin:12px 0}.dk-hero p{margin:0;max-width:66ch;font-size:16px;color:#e8eee9}
+.dk-card,.dk-result{border:1px solid var(--dk-line);border-radius:14px;background:white;padding:clamp(16px,2.5vw,28px);margin:12px 0}.dk-card h2{font:600 20px/1.25 system-ui;margin:0 0 10px}.dk-card h3{font-size:16px;margin:1rem 0 .4rem}.dk-hint{color:#435854;max-width:76ch;line-height:1.5}
+.dk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(205px,100%),1fr));gap:12px;margin:14px 0}.dk-field{display:flex;flex-direction:column;gap:5px;margin:4px 0 9px;font-size:14px;font-weight:600}.dk-field input,.dk-field select{font:inherit;font-weight:400;width:100%;min-width:0;min-height:40px;border:1px solid #a7bab1;background:white;color:#152d2b;border-radius:7px;padding:7px 10px}
+.dk-action,.dk-quiet{cursor:pointer;min-height:40px;padding:8px 16px;border-radius:8px;border:1px solid var(--dk-accent);background:var(--dk-accent);color:#fff;font-weight:650;margin:4px 8px 4px 0}.dk-quiet{color:var(--dk-accent);background:white}.dk-action:disabled,.dk-quiet:disabled{opacity:.6}
+.dk-result{background:var(--dk-wash)}.dk-result span{font-size:14px;font-weight:600}.dk-result strong{display:block;font:normal clamp(30px,4vw,46px)/1.18 Georgia,serif;color:var(--dk-ink);margin:.25em 0}.dk-result p{margin:.4em 0}.dk-error{color:#8e2319;background:#fff0eb;padding:10px;border-radius:6px}
+.dk-scroll{max-width:100%;overflow:auto;margin:14px 0}.dk-scroll table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}.dk-scroll td,.dk-scroll th{padding:9px 8px;border-bottom:1px solid var(--dk-line);text-align:left;white-space:normal}.dk-scroll th{font-size:12px;color:#344f48;background:#f2f5f1}.desk details>summary{cursor:pointer;color:var(--dk-accent);font-weight:650;padding:10px 0}.desk :focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #aa691c;outline-offset:3px}
+@media print{.dk-action,.dk-quiet,.dk-field input[type=file],.desk details{display:none!important}.dk-hero{background:white;color:black;border-bottom:2px solid #222;padding:10px}.dk-hero *{color:black!important}}
+.dk-line,.dk-pick{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--dk-line)}.dk-pick{justify-content:flex-start}.dk-pick input{width:18px;height:18px}.dk-price{border-top:1px solid var(--dk-line);padding:10px 0 16px}.desk p{line-height:1.5}.desk .dk-scroll tr:last-child td{border-bottom:0}.desk button:hover{filter:brightness(.94)}.top{box-shadow:none}.side .brand b{font-family:Georgia,serif;font-size:21px}.side .nav a.on{background:#d8e8de;color:#173d35}.desk details.dk-card>summary{padding:0}.desk details.dk-card[open]>summary{margin-bottom:16px}.dk-card:has(input[type=file]) input[type=file]{padding:7px;max-width:100%}
+</style>
+<style>:root{--dk-ink:#433429;--dk-accent:#87471e;--dk-wash:#f6ebdf}</style><style id="sp-etsy">
+.top{top:var(--sp-bh,50px)}
+.top .actions,#status{display:none!important}
+#main .panel{overflow-x:auto}
+#main .simple td:first-child{min-width:150px}
+@media(max-width:640px){
+ .top .bar{display:none}
+ #main .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #main .kpi.hi{grid-column:1/-1}
+ #main .kpi{padding:12px}
+ #main .kpi b{font-size:21px}
+ #main .kpi span{font-size:11px}
+ #main .panel{padding:14px}
+ #main .brow{grid-template-columns:140px minmax(0,1fr) 72px}
+ #main .brow .lab{font-size:13px}
+}
+</style>
+<div class="sp-bar">
+ <svg class="sp-tile" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="26" fill="#fff"/><g transform="translate(17 17) scale(.66)"><path d="M50 2C46 35 35 46 8 50C35 54 46 65 50 98Z" fill="#4047C9"/><path d="M50 2C54 35 65 46 92 50C65 54 54 65 50 98Z" fill="#3439A5"/></g></svg>
+ <div class="sp-id"><b>Etsy Seller Profit and Fee Tracker</b><span>Made by Sparkit · nothing you change here is saved</span></div>
+ <button class="sp-b ghost" type="button" id="spTourBtn"><span class="sp-long">Take the tour</span><span class="sp-short">Tour</span></button>
+ <a class="sp-b cta" id="spCta" href="https://buy.stripe.com/14A8wId3O26q3CUckN6J200" target="_blank" rel="noopener">$149 setup</a>
+</div>
+<div class="sp-strip"><span class="sp-tag">Demo</span><span>Sample data only.<span class="sp-more"> Your version uses your own products and orders.</span></span></div>
+</div>
+<header class="top">
+  <div class="bar">
+    <div class="brand"><div class="mark" aria-hidden="true">Et</div><div><b>Etsy Seller Profit &amp; Fee App 2027</b><small>Sparkit · desktop edition · works offline</small></div></div>
+    <span id="status" class="status neutral" role="status" aria-live="polite"><span class="dot"></span>No file open</span>
+    <div class="actions">
+      <button class="btn" data-act="open" title="Open the .xlsx file you saved">Open file</button>
+      <button class="btn primary" data-act="save" title="Save to your .xlsx file (Ctrl+S)">Save</button>
+      <button class="btn" data-act="saveas" title="Save a copy under a new name">Save as</button>
+      <button class="btn" data-act="csv" title="Export every tab as CSV files">Export CSV</button>
+      <button class="btn" data-act="print" title="Print or save this tab as a PDF">Print</button>
+    </div>
+  </div>
+  <nav id="nav" role="tablist" aria-label="Sections"></nav>
+</header>
+<p id="printhead"></p>
+<main id="main"></main>
+<div class="foot">Made by Sparkit. Version 3.1, November 2026. Questions: email joey.sparkit@gmail.com.</div>
+<input type="file" id="filein" accept=".xlsx,.csv" hidden>
+<div id="toast" class="toast" role="alert"></div>
+<div id="modal" class="modal"></div>
+<script>
+/* Sparkit offline app core: zip, xlsx, csv, data model. No network calls. */
+(function (G) {
+  'use strict';
+  var Core = {};
+
+  /* ---------- helpers ---------- */
+  var enc = new TextEncoder();
+  var dec = new TextDecoder();
+  function xmlEsc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    }).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
+  }
+  Core.xmlEsc = xmlEsc;
+  Core.round2 = function (n) { return Math.round((Number(n) || 0) * 100) / 100; };
+
+  /* ---------- CRC32 ---------- */
+  var CRC_T = (function () {
+    var t = new Uint32Array(256);
+    for (var n = 0; n < 256; n++) {
+      var c = n;
+      for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+      t[n] = c >>> 0;
+    }
+    return t;
+  })();
+  function crc32(u8) {
+    var c = 0xFFFFFFFF;
+    for (var i = 0; i < u8.length; i++) c = CRC_T[(c ^ u8[i]) & 0xFF] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+
+  /* ---------- ZIP (store-only writer, store+deflate reader) ---------- */
+  function zipWrite(files) { // files: [{name, data:Uint8Array|string}]
+    var parts = [], central = [], offset = 0;
+    var now = new Date();
+    var dosTime = (now.getHours() << 11) | (now.getMinutes() << 5) | (now.getSeconds() >> 1);
+    var dosDate = ((now.getFullYear() - 1980) << 9) | ((now.getMonth() + 1) << 5) | now.getDate();
+    files.forEach(function (f) {
+      var name = enc.encode(f.name);
+      var data = typeof f.data === 'string' ? enc.encode(f.data) : f.data;
+      var crc = crc32(data);
+      var lh = new DataView(new ArrayBuffer(30));
+      lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true);
+      lh.setUint16(8, 0, true); lh.setUint16(10, dosTime, true); lh.setUint16(12, dosDate, true);
+      lh.setUint32(14, crc, true); lh.setUint32(18, data.length, true); lh.setUint32(22, data.length, true);
+      lh.setUint16(26, name.length, true); lh.setUint16(28, 0, true);
+      parts.push(new Uint8Array(lh.buffer), name, data);
+      var ch = new DataView(new ArrayBuffer(46));
+      ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true);
+      ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true); ch.setUint16(12, dosTime, true);
+      ch.setUint16(14, dosDate, true); ch.setUint32(16, crc, true); ch.setUint32(20, data.length, true);
+      ch.setUint32(24, data.length, true); ch.setUint16(28, name.length, true);
+      ch.setUint32(42, offset, true);
+      central.push(new Uint8Array(ch.buffer), name);
+      offset += 30 + name.length + data.length;
+    });
+    var cdSize = central.reduce(function (s, p) { return s + p.length; }, 0);
+    var end = new DataView(new ArrayBuffer(22));
+    end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true);
+    end.setUint16(10, files.length, true); end.setUint32(12, cdSize, true); end.setUint32(16, offset, true);
+    var all = parts.concat(central, [new Uint8Array(end.buffer)]);
+    var total = all.reduce(function (s, p) { return s + p.length; }, 0);
+    var out = new Uint8Array(total), pos = 0;
+    all.forEach(function (p) { out.set(p, pos); pos += p.length; });
+    return out;
+  }
+  Core.zipWrite = zipWrite;
+
+  async function inflateRaw(u8,limit) {
+    if (typeof DecompressionStream === 'undefined') throw new Error('This browser is too old to open compressed files. Please update it.');
+    var ds = new DecompressionStream('deflate-raw');
+    var stream = new Response(u8).body.pipeThrough(ds);
+    const reader=stream.getReader(),chunks=[];let size=0;for(;;){const part=await reader.read();if(part.done)break;size+=part.value.length;if(size>limit){await reader.cancel();throw Error('Workbook exceeds the expanded-size limit.')}chunks.push(part.value)}const result=new Uint8Array(size);let offset=0;for(const c of chunks){result.set(c,offset);offset+=c.length}return result;
+  }
+
+  async function zipRead(u8) { // returns {name: Uint8Array}
+    var dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
+    var eocd = -1;
+    for (var i = u8.length - 22; i >= Math.max(0, u8.length - 65557); i--) {
+      if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+    }
+    if (eocd < 0) throw new Error('That file is not a valid Excel workbook.');
+    var count = dv.getUint16(eocd + 10, true);
+    var cd = dv.getUint32(eocd + 16, true);
+    if(count>512)throw Error('Too many workbook parts.');var budget=32000000;var out = Object.create(null);
+    for (var n = 0; n < count; n++) {
+      if (dv.getUint32(cd, true) !== 0x02014b50) break;
+      var method = dv.getUint16(cd + 10, true);
+      var csize = dv.getUint32(cd + 20, true);
+      var nlen = dv.getUint16(cd + 28, true), xlen = dv.getUint16(cd + 30, true), clen = dv.getUint16(cd + 32, true);
+      var lho = dv.getUint32(cd + 42, true);
+      var name = dec.decode(u8.subarray(cd + 46, cd + 46 + nlen));
+      var lnl = dv.getUint16(lho + 26, true), lxl = dv.getUint16(lho + 28, true);
+      var start = lho + 30 + lnl + lxl;
+      var raw = u8.subarray(start, start + csize);
+      if(raw.length>budget)throw Error('Workbook too large.');if (method === 0) out[name] = raw;
+      else if (method === 8) out[name] = await inflateRaw(raw,budget);if(out[name])budget-=out[name].length;
+      cd += 46 + nlen + xlen + clen;
+    }
+    return out;
+  }
+  Core.zipRead = zipRead;
+
+  /* ---------- dates ---------- */
+  function isoToSerial(iso) { // 'YYYY-MM-DD' -> Excel serial
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    if (!m) return null;
+    var t = Date.UTC(+m[1], +m[2] - 1, +m[3]);
+    return t / 86400000 + 25569;
+  }
+  function serialToIso(s) {
+    var d = new Date(Math.round((Number(s) - 25569) * 86400000));
+    if (isNaN(d)) return '';
+    return d.toISOString().slice(0, 10);
+  }
+  Core.isoToSerial = isoToSerial; Core.serialToIso = serialToIso;
+  Core.normDate = function (v) {
+    if (v === null || v === undefined || v === '') return '';
+    if (typeof v === 'number') return serialToIso(v);
+    var s = String(v).trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+    if (/^\d+(\.\d+)?$/.test(s)) return serialToIso(+s);
+    var m = /^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/.exec(s);
+    if (m) { var y = +m[3]; if (y < 100) y += 2000; return y + '-' + ('0' + m[1]).slice(-2) + '-' + ('0' + m[2]).slice(-2); }
+    var d = new Date(s);
+    return isNaN(d) ? '' : d.toISOString().slice(0, 10);
+  };
+  Core.normNum = function (v) {
+    if (v === null || v === undefined || v === '') return 0;
+    if (typeof v === 'number') return v;
+    var s = String(v).replace(/[$,\s]/g, '');
+    var neg = /^\(.*\)$/.test(s); s = s.replace(/[()]/g, '');
+    var pct = /%$/.test(s); s = s.replace(/%$/, '');
+    var n = parseFloat(s);
+    if (isNaN(n)) return 0;
+    if (pct) n = n / 100;
+    return neg ? -n : n;
+  };
+
+  /* ---------- XLSX writer ---------- */
+  function colName(i) { var s = ''; i++; while (i > 0) { var m = (i - 1) % 26; s = String.fromCharCode(65 + m) + s; i = Math.floor((i - 1) / 26); } return s; }
+  Core.colName = colName;
+  var STYLE = { text: 0, header: 1, date: 2, money: 3, percent: 4, number: 5, title: 6, bold: 7, moneyBold: 8 };
+  // sheet: {name, cols:[{label,type,width}], rows:[[...]], title?:string, note?:string}
+  function sheetXml(sh) {
+    var rowsXml = [], r = 1;
+    function cell(ref, v, type) {
+      if (v === null || v === undefined || v === '') return '';
+      if (type === 'date') { var s = isoToSerial(v); if (s !== null) return '<c r="' + ref + '" s="2"><v>' + s + '</v></c>'; type = 'text'; }
+      if (type === 'money' || type === 'percent' || type === 'number' || type === 'moneyBold') {
+        var n = Number(v); if (!isFinite(n)) n = 0;
+        return '<c r="' + ref + '" s="' + STYLE[type] + '"><v>' + n + '</v></c>';
+      }
+      var st = type === 'header' ? 1 : type === 'title' ? 6 : type === 'bold' ? 7 : 0;
+      return '<c r="' + ref + '" s="' + st + '" t="inlineStr"><is><t xml:space="preserve">' + xmlEsc(v) + '</t></is></c>';
+    }
+    var freezeRow = 1;
+    if (sh.title) {
+      rowsXml.push('<row r="' + r + '">' + cell('A' + r, sh.title, 'title') + '</row>'); r++;
+      if (sh.note) { rowsXml.push('<row r="' + r + '">' + cell('A' + r, sh.note, 'text') + '</row>'); r++; }
+      r++; freezeRow = r;
+    }
+    var h = sh.cols.map(function (c, i) { return cell(colName(i) + r, c.label, 'header'); }).join('');
+    rowsXml.push('<row r="' + r + '">' + h + '</row>'); var headerRow = r; r++;
+    sh.rows.forEach(function (row) {
+      var cs = row.map(function (v, i) {
+        var t = (sh.rowTypes && sh.rowTypes[r]) ? sh.rowTypes[r][i] : sh.cols[i].type;
+        return cell(colName(i) + r, v, t || 'text');
+      }).join('');
+      rowsXml.push('<row r="' + r + '">' + cs + '</row>'); r++;
+    });
+    var colsXml = '<cols>' + sh.cols.map(function (c, i) {
+      return '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + (c.width || (c.type === 'text' ? 28 : 14)) + '" customWidth="1"/>';
+    }).join('') + '</cols>';
+    var pane = '<sheetViews><sheetView workbookViewId="0"><pane ySplit="' + headerRow + '" topLeftCell="A' + (headerRow + 1) + '" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>';
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+      pane + colsXml + '<sheetData>' + rowsXml.join('') + '</sheetData></worksheet>';
+  }
+  function safeSheetName(n) { return String(n).replace(/[\\\/\?\*\[\]:]/g, ' ').slice(0, 31); }
+  Core.xlsxWrite = function (sheets, props) {
+    props = props || {};
+    var files = [];
+    var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+      '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>' +
+      '<Default Extension="xml" ContentType="application/xml"/>' +
+      '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+      '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+      '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>' +
+      sheets.map(function (s, i) { return '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'; }).join('') +
+      '</Types>';
+    files.push({ name: '[Content_Types].xml', data: ct });
+    files.push({ name: '_rels/.rels', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>' });
+    var iso = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+    files.push({ name: 'docProps/core.xml', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>' + xmlEsc(props.title || '') + '</dc:title><dc:creator>Sparkit</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">' + iso + '</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">' + iso + '</dcterms:modified></cp:coreProperties>' });
+    files.push({ name: 'xl/workbook.xml', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>' +
+      sheets.map(function (s, i) { return '<sheet name="' + xmlEsc(safeSheetName(s.name)) + '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>'; }).join('') + '</sheets></workbook>' });
+    files.push({ name: 'xl/_rels/workbook.xml.rels', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+      sheets.map(function (s, i) { return '<Relationship Id="rId' + (i + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet' + (i + 1) + '.xml"/>'; }).join('') +
+      '<Relationship Id="rId' + (sheets.length + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>' });
+    files.push({ name: 'xl/styles.xml', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+      '<numFmts count="2"><numFmt numFmtId="164" formatCode="&quot;$&quot;#,##0.00"/><numFmt numFmtId="165" formatCode="0.0%"/></numFmts>' +
+      '<fonts count="3"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><b/><sz val="14"/><name val="Calibri"/></font></fonts>' +
+      '<fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF1F2A44"/><bgColor indexed="64"/></patternFill></fill></fills>' +
+      '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>' +
+      '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
+      '<cellXfs count="9">' +
+      '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>' +
+      '<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/>' +
+      '<xf numFmtId="14" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>' +
+      '<xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>' +
+      '<xf numFmtId="165" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>' +
+      '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>' +
+      '<xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/>' +
+      '<xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/>' +
+      '<xf numFmtId="164" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1" applyNumberFormat="1"/>' +
+      '</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>' });
+    sheets.forEach(function (s, i) { files.push({ name: 'xl/worksheets/sheet' + (i + 1) + '.xml', data: sheetXml(s) }); });
+    return zipWrite(files);
+  };
+
+  /* ---------- XLSX reader (very tolerant) ---------- */
+  function parseXml(str) {
+    if (typeof DOMParser !== 'undefined') return new DOMParser().parseFromString(str, 'application/xml');
+    if (G.__xmlParse) return G.__xmlParse(str);
+    throw new Error('No XML parser');
+  }
+  function byTag(node, tag) { // namespace tolerant
+    var out = [], all = node.getElementsByTagName('*');
+    for (var i = 0; i < all.length; i++) { var ln = all[i].localName || all[i].nodeName.split(':').pop(); if (ln === tag) out.push(all[i]); }
+    return out;
+  }
+  function textOf(n) { return n ? (n.textContent || '') : ''; }
+  function refToRC(ref) {
+    var m = /^([A-Z]+)(\d+)$/.exec(ref); if (!m) return null;
+    var c = 0; for (var i = 0; i < m[1].length; i++) c = c * 26 + (m[1].charCodeAt(i) - 64);
+    return { r: +m[2] - 1, c: c - 1 };
+  }
+  Core.xlsxRead = async function (u8) { // returns {sheetName: [[cell,...],...]}
+    var files = await zipRead(u8);
+    function get(p) { var k = Object.keys(files).find(function (f) { return f.replace(/^\//, '').toLowerCase() === p.toLowerCase(); }); return k ? dec.decode(files[k]) : null; }
+    var wb = get('xl/workbook.xml'); if (!wb) throw new Error('That file is not a valid Excel workbook.');
+    var rels = parseXml(get('xl/_rels/workbook.xml.rels') || '<Relationships/>');
+    var relMap = {}; byTag(rels, 'Relationship').forEach(function (r) { relMap[r.getAttribute('Id')] = r.getAttribute('Target'); });
+    var shared = [];
+    var ss = get('xl/sharedStrings.xml');
+    if (ss) byTag(parseXml(ss), 'si').forEach(function (si) { shared.push(byTag(si, 't').map(textOf).join('')); });
+    var out = {};
+    byTag(parseXml(wb), 'sheet').forEach(function (s) {
+      var name = s.getAttribute('name');
+      var rid = s.getAttribute('r:id') || s.getAttributeNS && s.getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships', 'id');
+      var target = relMap[rid]; if (!target) return;
+      target = target.replace(/^\//, ''); if (!/^xl\//i.test(target)) target = 'xl/' + target;
+      var x = get(target); if (!x) return;
+      var grid = [];
+      byTag(parseXml(x), 'c').forEach(function (c) {
+        var rc = refToRC(c.getAttribute('r') || ''); if(!rc)return;if(rc.r>50000||rc.c>512)throw Error('Workbook dimensions exceed the supported range.');
+        var t = c.getAttribute('t'), v;
+        var vn = byTag(c, 'v')[0];
+        if (t === 's') v = shared[+textOf(vn)] || '';
+        else if (t === 'inlineStr') v = byTag(c, 't').map(textOf).join('');
+        else if (t === 'str' || t === 'e') v = textOf(vn);
+        else if (t === 'b') v = textOf(vn) === '1';
+        else v = vn ? Number(textOf(vn)) : '';
+        (grid[rc.r] = grid[rc.r] || [])[rc.c] = v;
+      });
+      for (var i = 0; i < grid.length; i++) grid[i] = grid[i] || [];
+      out[name] = grid;
+    });
+    return out;
+  };
+
+  /* ---------- CSV ---------- */
+  Core.csvWrite = function (cols, rows) {
+    function q(v) { if(typeof v==='string' && /^\s*[=+@-]/.test(v))v="'"+v;v = v === null || v === undefined ? '' : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+    return '﻿' + [cols.map(q).join(',')].concat(rows.map(function (r) { return r.map(q).join(','); })).join('\r\n') + '\r\n';
+  };
+  Core.csvRead = function (text) {
+    text = text.replace(/^﻿/, '');
+    var rows = [], row = [], f = '', q = false;
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      if (q) { if (ch === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += ch; }
+      else if (ch === '"') q = true;
+      else if (ch === ',') { row.push(f); f = ''; }
+      else if (ch === '\n' || ch === '\r') { if (ch === '\r' && text[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
+      else f += ch;
+    }
+    if(q)throw Error('CSV has an unclosed quoted field.');if (f !== '' || row.length) { row.push(f); rows.push(row); }
+    return rows.filter(function (r) { return r.some(function (c) { return String(c).trim() !== ''; }); });
+  };
+
+  /* ---------- table <-> grid using a column config ---------- */
+  Core.tableToGrid = function (tdef, rows) {
+    return rows.map(function (r) { return tdef.cols.map(function (c) { return r[c.key] === undefined ? '' : r[c.key]; }); });
+  };
+  Core.gridToTable = function (tdef, grid) { // finds the header row by labels
+    var hi = -1, map = null;
+    for (var i = 0; i < Math.min(grid.length, 15); i++) {
+      var row = (grid[i] || []).map(function (v) { return String(v === undefined ? '' : v).trim().toLowerCase(); });
+      var m = tdef.cols.map(function (c) { return row.indexOf(c.label.toLowerCase()); });
+      var hits = m.filter(function (x) { return x >= 0; }).length;
+      if (hits >= Math.max(1, Math.ceil(tdef.cols.length / 2))) { hi = i; map = m; break; }
+    }
+    if (hi < 0) return null;
+    var out = [];
+    for (var j = hi + 1; j < grid.length; j++) {
+      var g = grid[j] || [], rec = {}, any = false;
+      tdef.cols.forEach(function (c, k) {
+        if (c.computed) return;
+        var v = map[k] >= 0 ? g[map[k]] : '';
+        if (v !== '' && v !== undefined && v !== null) any = true;
+        if (c.type === 'date') v = Core.normDate(v);
+        else if (c.type === 'money' || c.type === 'number' || c.type === 'percent') v = (v === '' || v === undefined) ? '' : Core.normNum(v);
+        else if (c.type === 'check') v = v === true || /^(yes|y|true|1|x)$/i.test(String(v));
+        else v = v === undefined || v === null ? '' : String(v);
+        rec[c.key] = v;
+      });
+      if (any) out.push(rec);
+    }
+    return out;
+  };
+
+  /* ---------- tax engine (2027, federal, simplified) ---------- */
+  Core.TAX2027 = {
+    source: 'IRS Rev. Proc. 2026-35; SSA 2027 COLA fact sheet',
+    std: { single: 16600, mfj: 33200, hoh: 24925, mfs: 16600 },
+    brackets: {
+      single: [[12800, .10], [52025, .12], [109125, .22], [208325, .24], [264550, .32], [661375, .35], [Infinity, .37]],
+      mfj: [[25600, .10], [104050, .12], [218250, .22], [416650, .24], [529100, .32], [793650, .35], [Infinity, .37]],
+      hoh: [[18250, .10], [69650, .12], [109100, .22], [208300, .24], [264550, .32], [661350, .35], [Infinity, .37]],
+      mfs: [[12800, .10], [52025, .12], [109125, .22], [208325, .24], [264550, .32], [396825, .35], [Infinity, .37]]
+    },
+    ssWageBase: 192300,
+    addlMedicare: { single: 200000, hoh: 200000, mfj: 250000, mfs: 125000 },
+    qbiThreshold: { single: 208300, hoh: 208300, mfj: 416600, mfs: 208325 },
+    dueDates: [['Q1', '2027-04-15', 'Jan 1 to Mar 31'], ['Q2', '2027-06-15', 'Apr 1 to May 31'], ['Q3', '2027-09-15', 'Jun 1 to Aug 31'], ['Q4', '2028-01-18', 'Sep 1 to Dec 31']]
+  };
+  Core.incomeTax = function (taxable, status) {
+    var b = Core.TAX2027.brackets[status] || Core.TAX2027.brackets.single, tax = 0, prev = 0;
+    for (var i = 0; i < b.length; i++) {
+      if (taxable <= prev) break;
+      var top = Math.min(taxable, b[i][0]);
+      tax += (top - prev) * b[i][1];
+      prev = b[i][0];
+    }
+    return Math.max(0, tax);
+  };
+  Core.marginalRate = function (taxable, status) {
+    var b = Core.TAX2027.brackets[status] || Core.TAX2027.brackets.single;
+    for (var i = 0; i < b.length; i++) if (taxable <= b[i][0]) return b[i][1];
+    return .37;
+  };
+  // p: {profit, status, w2Wages, otherIncome, withholding, priorYearTax, priorYearAgiOver150k}
+  Core.estimateTax = function (p) {
+    var T = Core.TAX2027, status = p.status || 'single';
+    var profit = Math.max(0, p.profit || 0);
+    var seBase = profit * 0.9235;
+    if (seBase < 400) seBase = 0;
+    var ssRoom = Math.max(0, T.ssWageBase - (p.w2Wages || 0));
+    var ss = Math.min(seBase, ssRoom) * 0.124;
+    var medicare = seBase * 0.029;
+    var addlThresh = Math.max(0, T.addlMedicare[status] - (p.w2Wages || 0));
+    var addlMed = Math.max(0, seBase - addlThresh) * 0.009;
+    var seTax = ss + medicare + addlMed;
+    var halfSe = (ss + medicare) / 2;
+    var agi = profit + (p.w2Wages || 0) + (p.otherIncome || 0) - halfSe;
+    var beforeQbi = Math.max(0, agi - T.std[status]);
+    var qbiIncome = Math.max(0, profit - halfSe);
+    var qbi = Math.min(qbiIncome * 0.2, beforeQbi * 0.2);
+    var taxable = Math.max(0, beforeQbi - qbi);
+    var incTax = Core.incomeTax(taxable, status);
+    var total = incTax + seTax;
+    var net = Math.max(0, total - (p.withholding || 0));
+    var safe90 = 0.9 * total;
+    var prior = p.priorYearTax > 0 ? p.priorYearTax * (p.priorYearAgiOver150k ? 1.1 : 1) : Infinity;
+    var required = Math.max(0, Math.min(safe90, prior) - (p.withholding || 0));
+    return {
+      profit: profit, seBase: seBase, ss: ss, medicare: medicare, addlMed: addlMed, seTax: seTax, halfSe: halfSe,
+      agi: agi, std: T.std[status], qbi: qbi, taxable: taxable, incomeTax: incTax, total: total,
+      net: net, required: required, quarterly: required / 4, usedPrior: prior < safe90,
+      marginal: Core.marginalRate(taxable, status), overQbiThreshold: beforeQbi > T.qbiThreshold[status],
+      effective: profit > 0 ? total / (profit + (p.w2Wages || 0) + (p.otherIncome || 0)) : 0
+    };
+  };
+
+  /* ---------- Etsy fee engine (US seller, Etsy Payments) ---------- */
+  Core.ETSY = { source: 'etsy.com/legal/fees (updated Oct 5, 2026) and etsy.com/sell', listing: 0.20, transaction: 0.065, procPct: 0.03, procFixed: 0.25, offsite: 0.15, offsiteLow: 0.12, offsiteCap: 100, fx: 0.025 };
+  // o: {qty, price (per item), shipping, giftWrap, discount, salesTax, offsite:boolean, offsiteRate, fx:boolean}
+  Core.etsyFees = function (o, rates) {
+    var E = Object.assign({}, Core.ETSY, rates || {});
+    var qty = Math.max(1, Number(o.qty) || 1);
+    var items = (Number(o.price) || 0) * qty - (Number(o.discount) || 0);
+    var ship = Number(o.shipping) || 0, wrap = Number(o.giftWrap) || 0, tax = Number(o.salesTax) || 0;
+    var feeBase = Math.max(0, items + ship + wrap);
+    var listing = E.listing * qty; // first listing + auto-renew on each additional quantity sold
+    var transaction = feeBase * E.transaction;
+    var processing = (feeBase + tax) * E.procPct + E.procFixed;
+    var offsite = o.offsite ? Math.min(feeBase * (o.offsiteRate || E.offsite), E.offsiteCap) : 0;
+    var fx = o.fx ? feeBase * E.fx : 0;
+    var total = listing + transaction + processing + offsite + fx;
+    return { revenue: feeBase, listing: listing, transaction: transaction, processing: processing, offsite: offsite, fx: fx, total: total };
+  };
+
+  G.SparkitCore = Core;
+  if (typeof module !== 'undefined') module.exports = Core;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+
+/* Etsy Seller Profit & Fee App 2027 */
+(function () {
+  var Core = window.SparkitCore, E = Core.ETSY;
+  function rates(s) { return { listing: Number(s.listingFee), transaction: Number(s.txRate), procPct: Number(s.procPct), procFixed: Number(s.procFixed), offsiteCap: 100 }; }
+  function prod(c, name) { return c.t.products.find(function (p) { return p.name === name; }); }
+  function unitCost(p, s) { if (!p) return 0; var labor = s.useLabor ? (Number(p.minutes) || 0) / 60 * (Number(s.hourly) || 0) : 0; return (Number(p.materials) || 0) + (Number(p.packaging) || 0) + labor; }
+  function orderCalc(r, c) {
+    var s = c.s, p = prod(c, r.product), qty = Math.max(1, Number(r.qty) || 1);
+    var f = Core.etsyFees({ qty: qty, price: r.price, shipping: r.shipping, discount: r.discount, salesTax: r.salesTax, offsite: !!r.offsite, offsiteRate: Number(s.offsiteRate), fx: !!r.fx }, rates(s));
+    var cogs = unitCost(p, s) * qty, label = Number(r.label) || 0;
+    var profit = f.revenue - f.total - cogs - label;
+    return { fees: f, cogs: cogs, label: label, profit: profit, margin: f.revenue ? profit / f.revenue : 0, revenue: f.revenue, qty: qty };
+  }
+  function y(r) { return r.date && r.date.slice(0, 4); }
+  function calc(c) {
+    var yr = String(c.s.year || 2027);
+    var orders = c.t.orders.filter(function (r) { return y(r) === yr; });
+    var exp = c.t.expenses.filter(function (r) { return y(r) === yr; });
+    var k = { revenue: 0, fees: 0, cogs: 0, label: 0, profit: 0, n: orders.length, units: 0, feeParts: { 'Transaction (6.5%)': 0, 'Payment processing': 0, 'Listing and renewals': 0, 'Offsite Ads': 0, 'Currency conversion': 0 }, mRev: new Array(12).fill(0), mProfit: new Array(12).fill(0), byProd: {}, overhead: 0, byExp: {} };
+    orders.forEach(function (r) {
+      var o = orderCalc(r, c), m = +r.date.slice(5, 7) - 1;
+      k.revenue += o.revenue; k.fees += o.fees.total; k.cogs += o.cogs; k.label += o.label; k.profit += o.profit; k.units += o.qty;
+      k.feeParts['Transaction (6.5%)'] += o.fees.transaction; k.feeParts['Payment processing'] += o.fees.processing; k.feeParts['Listing and renewals'] += o.fees.listing; k.feeParts['Offsite Ads'] += o.fees.offsite; k.feeParts['Currency conversion'] += o.fees.fx;
+      k.mRev[m] += o.revenue; k.mProfit[m] += o.profit;
+      var bp = k.byProd[r.product || 'No product set'] = k.byProd[r.product || 'No product set'] || { units: 0, revenue: 0, fees: 0, cogs: 0, profit: 0, n: 0 };
+      bp.units += o.qty; bp.revenue += o.revenue; bp.fees += o.fees.total; bp.cogs += o.cogs + o.label; bp.profit += o.profit; bp.n++;
+    });
+    exp.forEach(function (r) { var a = Number(r.amount) || 0; k.overhead += a; k.byExp[r.category || 'Other'] = (k.byExp[r.category || 'Other'] || 0) + a; var m = +r.date.slice(5, 7) - 1; k.mProfit[m] -= a; });
+    k.net = k.profit - k.overhead;
+    k.yr = yr;
+    return k;
+  }
+  // price that hits a target margin on revenue: fees are linear in price, so solve with two points
+  function targetPrice(p, c) {
+    var s = c.s, m = Number(s.targetMargin) || 0;
+    function profitAt(P) { var r = { qty: 1, price: P, shipping: p.shipping, product: p.name, label: p.labelCost, salesTax: 0 }; var o = orderCalc(r, c); return o.profit - m * o.revenue; }
+    var a = profitAt(10), b = profitAt(110), slope = (b - a) / 100;
+    if (slope <= 0) return null;
+    var P = 10 - a / slope;
+    return P > 0 ? Math.ceil(P * 4) / 4 - 0.01 : 0.99;
+  }
+  function bars(obj, F, cls) {
+    var keys = Object.keys(obj).filter(function (k) { return obj[k] > 0.004; }).sort(function (a, b) { return obj[b] - obj[a]; });
+    if (!keys.length) return '<p class="sub">Nothing yet.</p>';
+    var max = obj[keys[0]];
+    return '<div class="bars">' + keys.slice(0, 10).map(function (k) { return '<div class="brow"><span class="lab" title="' + F.h(k) + '">' + F.h(k) + '</span><div class="track"><div class="fill ' + (cls || '') + '" style="width:' + (obj[k] / max * 100).toFixed(1) + '%"></div></div><span class="val">' + F.money(obj[k]) + '</span></div>'; }).join('') + '</div>';
+  }
+  function monthChart(a, b, F, M) {
+    var max = Math.max.apply(null, a.concat(b.map(Math.abs)).concat([1]));
+    return '<div class="months">' + M.map(function (m, i) { return '<div class="mcol" title="' + m + ': sales ' + F.money0(a[i]) + ', profit ' + F.money0(b[i]) + '"><div class="mstack" style="flex-direction:row;align-items:flex-end;gap:3px;width:86%"><div class="mbar alt" style="height:' + (a[i] / max * 100) + '%;width:50%;border-radius:4px 4px 0 0"></div><div class="mbar" style="height:' + (Math.max(0, b[i]) / max * 100) + '%;width:50%;' + (b[i] < 0 ? 'background:#dc2626;height:4px' : '') + '"></div></div>' + m + '</div>'; }).join('') + '</div><div class="legend"><span><i style="background:#cbd5e1"></i>Sales</span><span><i style="background:var(--accent)"></i>Profit after fees, costs and overhead</span></div>';
+  }
+  function d(m, day) { return '2027-' + ('0' + m).slice(-2) + '-' + ('0' + day).slice(-2); }
+  function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
+
+  window.APP_CONFIG = {
+    id: 'etsy2027', name: 'Etsy Seller Profit & Fee App 2027', mark: 'Et', fileBase: 'My Etsy Shop Profit 2027', accent: '#c2410c',
+    eyebrow: 'For Etsy sellers who want the real number',
+    tagline: 'Log each order and the app takes out every Etsy fee, your materials, packaging and shipping label, so you see what you actually kept. Then it tells you the price you need to hit your margin.',
+    step1: 'Add your products once with their costs, then log orders as they come in.',
+    features: [['Every Etsy fee, itemized', 'Listing and renewal, 6.5% transaction on item, shipping and gift wrap, payment processing on the total, Offsite Ads and currency conversion.'], ['Real profit per product', 'Materials, packaging, labels and your time per item, so you know which listings are worth it.'], ['Price for your target margin', 'Set a margin and the app works out the price each product needs after fees.'], ['Your data, in your file', 'Saves to an Excel workbook on your computer. No account, no subscription, no shop connection needed.']],
+    startNote: 'Fee rates are Etsy’s US rates from its Fees & Payments Policy (updated Oct 5, 2026). You can change any rate in Settings if Etsy updates them or you sell from another country.',
+    disclaimer: '',
+    home: 'dash', firstTable: 'products',
+    settings: [
+      { key: 'shop', label: 'Shop name', type: 'text', default: '', group: 'Your shop' },
+      { key: 'year', label: 'Year to show', type: 'number', default: 2027, group: 'Your shop' },
+      { key: 'targetMargin', label: 'Target profit margin', type: 'percent', default: 0.35, group: 'Your shop', help: 'Used by the Pricing tab to suggest a price for each product.' },
+      { key: 'useLabor', label: 'Count my time as a cost', type: 'check', default: false, group: 'Your time', help: 'Adds minutes per item at your hourly rate to each product’s cost.' },
+      { key: 'hourly', label: 'Your hourly rate', type: 'money', default: 20, group: 'Your time' },
+      { key: 'listingFee', label: 'Listing and renewal fee per item sold', type: 'money', default: E.listing, group: 'Etsy fee rates (US)', help: '$0.20 per listing. Etsy charges another $0.20 each time a listing renews after a sale.' },
+      { key: 'txRate', label: 'Transaction fee', type: 'percent', default: E.transaction, group: 'Etsy fee rates (US)', help: '6.5% of item price, shipping and gift wrap. Not charged on US sales tax.' },
+      { key: 'procPct', label: 'Payment processing, percent', type: 'percent', default: E.procPct, group: 'Etsy fee rates (US)', help: 'Charged on the order total including sales tax and shipping.' },
+      { key: 'procFixed', label: 'Payment processing, flat fee per order', type: 'money', default: E.procFixed, group: 'Etsy fee rates (US)' },
+      { key: 'offsiteRate', label: 'Offsite Ads fee when an order comes from an ad', type: 'select', default: 0.15, options: [[0.15, '15% (shops under $10,000 a year)'], [0.12, '12% (shops over $10,000 a year)']], group: 'Etsy fee rates (US)', help: 'Capped at $100 per order.' }
+    ],
+    tables: [
+      { id: 'products', sheet: 'Products', title: 'Products', noun: 'product', plural: 'products', help: 'Set up each thing you sell once. Orders pick up these costs automatically.', empty: 'Add your first product.', cols: [
+        { key: 'name', label: 'Product', type: 'text', width: 30 },
+        { key: 'kind', label: 'Type', type: 'select', options: ['Physical', 'Digital', 'Made to order'], width: 14 },
+        { key: 'price', label: 'Price', type: 'money' },
+        { key: 'shipping', label: 'Shipping charged', type: 'money' },
+        { key: 'materials', label: 'Materials per item', type: 'money' },
+        { key: 'packaging', label: 'Packaging per item', type: 'money' },
+        { key: 'labelCost', label: 'Typical label cost', type: 'money' },
+        { key: 'minutes', label: 'Minutes per item', type: 'number', width: 12 },
+        { key: 'perSale', label: 'Profit per sale', type: 'money', computed: function (p, c) { return orderCalc({ qty: 1, price: p.price, shipping: p.shipping, product: p.name, label: p.labelCost, salesTax: 0 }, c).profit; } }
+      ] },
+      { id: 'orders', sheet: 'Orders', title: 'Orders', noun: 'order', plural: 'orders', help: 'One row per Etsy order. Pick the product and the price and shipping fill in; change them if the order was different.', empty: 'No orders logged yet.', cols: [
+        { key: 'date', label: 'Date', type: 'date' },
+        { key: 'orderNo', label: 'Order number', type: 'text', width: 16 },
+        { key: 'product', label: 'Product', type: 'select', options: function (c) { return c.t.products.map(function (p) { return p.name; }).filter(Boolean); }, width: 26, onChange: function (r, c) { var p = prod(c, r.product); if (p) { if (r.price === '' || r.price === undefined) r.price = p.price; if (r.shipping === '' || r.shipping === undefined) r.shipping = p.shipping; if (r.label === '' || r.label === undefined) r.label = p.labelCost; } } },
+        { key: 'qty', label: 'Qty', type: 'number', default: 1, width: 8 },
+        { key: 'price', label: 'Item price', type: 'money' },
+        { key: 'shipping', label: 'Shipping charged', type: 'money' },
+        { key: 'discount', label: 'Discount', type: 'money' },
+        { key: 'salesTax', label: 'Sales tax', type: 'money' },
+        { key: 'label', label: 'Label cost', type: 'money' },
+        { key: 'offsite', label: 'From Offsite Ad', type: 'check', width: 10 },
+        { key: 'fx', label: 'Currency conv.', type: 'check', width: 10 },
+        { key: 'fees', label: 'Etsy fees', type: 'money', computed: function (r, c) { return orderCalc(r, c).fees.total; }, total: true },
+        { key: 'profit', label: 'Profit', type: 'money', computed: function (r, c) { return orderCalc(r, c).profit; }, total: true },
+        { key: 'margin', label: 'Margin', type: 'percent', computed: function (r, c) { return orderCalc(r, c).margin; } }
+      ] },
+      { id: 'expenses', sheet: 'Shop Expenses', title: 'Shop expenses', tab: 'Expenses', noun: 'expense', plural: 'expenses', help: 'Costs that aren’t tied to one order: Etsy Ads, subscriptions, bulk supplies, tools.', empty: 'No shop expenses logged yet.', cols: [
+        { key: 'date', label: 'Date', type: 'date' },
+        { key: 'category', label: 'Category', type: 'select', options: ['Etsy Ads', 'Etsy Plus or subscription', 'Bulk supplies', 'Packaging (bulk)', 'Tools and equipment', 'Photography', 'Software', 'Shipping supplies', 'Other'], width: 24 },
+        { key: 'desc', label: 'What it was', type: 'text', width: 30 },
+        { key: 'amount', label: 'Amount', type: 'money', total: true }
+      ] }
+    ],
+    views: [
+      { id: 'dash', label: 'Dashboard', render: function (c) {
+        var k = calc(c), F = c.F;
+        return '<div class="kpis"><div class="kpi hi"><span>You kept in ' + k.yr + '</span><b>' + F.money0(k.net) + '</b><small>after fees, costs and shop expenses</small></div>' +
+          '<div class="kpi"><span>Sales</span><b>' + F.money0(k.revenue) + '</b><small>' + k.n + ' orders, ' + k.units + ' items</small></div>' +
+          '<div class="kpi"><span>Etsy fees</span><b>' + F.money0(k.fees) + '</b><small>' + (k.revenue ? F.pct(k.fees / k.revenue) + ' of sales' : 'Fees appear as you log orders') + '</small></div>' +
+          '<div class="kpi"><span>Costs and labels</span><b>' + F.money0(k.cogs + k.label) + '</b><small>materials, packaging' + (c.s.useLabor ? ', your time' : '') + ', shipping labels</small></div>' +
+          '<div class="kpi"><span>Profit per order</span><b>' + F.money(k.n ? k.profit / k.n : 0) + '</b><small>' + (k.revenue ? F.pct(k.profit / k.revenue, 0) + ' margin before overhead' : 'Average after fees and costs') + '</small></div></div>' +
+          '<div class="cols2"><div class="panel"><h3>Sales and profit by month</h3>' + monthChart(k.mRev, k.mProfit, F, c.MONTHS) + '</div><div class="panel"><h3>Where your Etsy fees go</h3>' + bars(k.feeParts, F) + (k.overhead ? '<h3 style="margin-top:18px">Shop expenses</h3>' + bars(k.byExp, F, 'alt') : '') + '</div></div>' +
+          '<div class="panel"><h3>Profit by product</h3>' + prodTable(k, F) + '</div>';
+      } },
+      { id: 'pricing', label: 'Pricing', render: function (c) {
+        var F = c.F, s = c.s;
+        var rows = c.t.products.filter(function (p) { return p.name; }).map(function (p) {
+          var o = orderCalc({ qty: 1, price: p.price, shipping: p.shipping, product: p.name, label: p.labelCost, salesTax: 0 }, c), tp = targetPrice(p, c);
+          var tag = o.margin >= Number(s.targetMargin) ? '<span class="pill good">On target</span>' : o.profit < 0 ? '<span class="pill bad">Losing money</span>' : '<span class="pill warn">Below target</span>';
+          return '<tr><td><b>' + F.h(p.name) + '</b></td><td class="r">' + F.money(p.price) + '</td><td class="r">' + F.money(o.fees.total) + '</td><td class="r">' + F.money(o.cogs + o.label) + '</td><td class="r">' + F.money(o.profit) + '</td><td class="r">' + F.pct(o.margin, 0) + '</td><td>' + tag + '</td><td class="r"><b>' + (tp === null ? '&mdash;' : F.money(tp)) + '</b></td></tr>';
+        }).join('');
+        return '<div class="panel"><div class="ph"><div><h2>Pricing check</h2><p class="sub">Each product at its current price, with one sale’s Etsy fees and your costs. The last column is the lowest price that reaches your ' + F.pct(s.targetMargin, 0) + ' target margin (change it in Settings).</p></div></div>' +
+          (rows ? '<table class="simple"><thead><tr><th>Product</th><th class="r">Price now</th><th class="r">Etsy fees</th><th class="r">Your costs</th><th class="r">Profit</th><th class="r">Margin</th><th>Status</th><th class="r">Price for target</th></tr></thead><tbody>' + rows + '</tbody></table>' : '<div class="empty">Add products to see pricing.</div>') +
+          '<div class="callout">How one $25 sale with $5 shipping breaks down at Etsy’s US rates: listing renewal $0.20, transaction fee $1.95 (6.5% of $30), payment processing $1.15 (3% of $30 plus $0.25). Total fees $3.30, before your own costs.</div></div>';
+      } }
+    ],
+    summarySheets: function (c) {
+      var k = calc(c);
+      return [
+        { name: 'Summary', title: 'Etsy Seller Profit & Fee App 2027' + (c.s.shop ? ' — ' + c.s.shop : ''), note: 'Saved ' + new Date().toLocaleString('en-US') + '. Fee rates: ' + Core.ETSY.source + '.', cols: [{ label: 'Item', type: 'text', width: 40 }, { label: 'Amount', type: 'money', width: 18 }], rows: [['Sales (item, shipping, gift wrap)', k.revenue], ['Etsy fees', k.fees]].concat(Object.keys(k.feeParts).map(function (x) { return ['   ' + x, k.feeParts[x]]; })).concat([['Materials, packaging, time', k.cogs], ['Shipping labels', k.label], ['Profit before shop expenses', k.profit], ['Shop expenses', k.overhead], ['You kept', k.net]]) },
+        { name: 'By Product', cols: [{ label: 'Product', type: 'text', width: 30 }, { label: 'Orders', type: 'number', width: 9 }, { label: 'Units', type: 'number', width: 9 }, { label: 'Sales', type: 'money' }, { label: 'Etsy fees', type: 'money' }, { label: 'Costs', type: 'money' }, { label: 'Profit', type: 'money' }],
+          rows: Object.keys(k.byProd).sort(function (a, b) { return k.byProd[b].profit - k.byProd[a].profit; }).map(function (n) { var p = k.byProd[n]; return [n, p.n, p.units, p.revenue, p.fees, p.cogs, p.profit]; }) }
+      ];
+    },
+    sample: function (s) {
+      var r = rng(3);
+      var products = [
+        { name: 'Personalized Pet Portrait (digital)', kind: 'Digital', price: 28, shipping: 0, materials: 0, packaging: 0, labelCost: 0, minutes: 35 },
+        { name: 'Hand-stamped Brass Keychain', kind: 'Physical', price: 22, shipping: 4.5, materials: 3.1, packaging: 0.9, labelCost: 4.1, minutes: 15 },
+        { name: 'Soy Candle, 8 oz', kind: 'Physical', price: 24, shipping: 6.95, materials: 5.4, packaging: 1.6, labelCost: 6.2, minutes: 10 },
+        { name: 'Wedding Welcome Sign (printable)', kind: 'Digital', price: 9, shipping: 0, materials: 0, packaging: 0, labelCost: 0, minutes: 5 },
+        { name: 'Custom Embroidered Hat', kind: 'Made to order', price: 34, shipping: 5.5, materials: 9.8, packaging: 1.2, labelCost: 5.6, minutes: 25 }
+      ];
+      var orders = [], n = 1041;
+      for (var m = 1; m <= 9; m++) {
+        var count = 8 + Math.floor(r() * 7) + m;
+        for (var i = 0; i < count; i++) {
+          var p = products[Math.floor(r() * products.length)], q = r() > .88 ? 2 : 1;
+          orders.push({ date: d(m, 1 + Math.floor(r() * 27)), orderNo: String(3100000000 + n++), product: p.name, qty: q, price: p.price, shipping: p.shipping, discount: r() > .85 ? Math.round(p.price * q * .1 * 100) / 100 : '', salesTax: Math.round((p.price * q + p.shipping) * (r() > .5 ? .07 : .0) * 100) / 100, label: p.labelCost, offsite: r() > .93, fx: r() > .9 });
+        }
+      }
+      var exp = [];
+      for (var mm = 1; mm <= 9; mm++) { exp.push({ date: d(mm, 1), category: 'Etsy Ads', desc: 'Etsy Ads budget', amount: 30 + Math.round(r() * 25) }); }
+      exp.push({ date: d(2, 12), category: 'Bulk supplies', desc: 'Wax and wicks, bulk', amount: 186 }, { date: d(5, 3), category: 'Tools and equipment', desc: 'Metal stamp set', amount: 64 }, { date: d(1, 20), category: 'Software', desc: 'Canva Pro', amount: 120 });
+      s.tables = { products: products, orders: orders, expenses: exp };
+      s.settings.shop = 'Example Makers Co. (sample shop)';
+      return s;
+    },
+    _calc: calc
+  };
+  function prodTable(k, F) {
+    var keys = Object.keys(k.byProd).sort(function (a, b) { return k.byProd[b].profit - k.byProd[a].profit; });
+    if (!keys.length) return '<p class="sub">Log orders to see which products earn the most.</p>';
+    return '<table class="simple"><thead><tr><th>Product</th><th class="r">Items sold</th><th class="r">Sales</th><th class="r">Etsy fees</th><th class="r">Costs</th><th class="r">Profit</th><th class="r">Margin</th></tr></thead><tbody>' +
+      keys.map(function (n) { var p = k.byProd[n]; return '<tr><td><b>' + F.h(n) + '</b></td><td class="r">' + p.units + '</td><td class="r">' + F.money(p.revenue) + '</td><td class="r">' + F.money(p.fees) + '</td><td class="r">' + F.money(p.cogs) + '</td><td class="r">' + F.money(p.profit) + '</td><td class="r">' + F.pct(p.revenue ? p.profit / p.revenue : 0, 0) + '</td></tr>'; }).join('') + '</tbody></table>';
+  }
+})();
+
+</script>
+<script>
+/* Sparkit offline app shell UI. Works from a local file, no internet, no account. */
+(function () {
+  'use strict';
+  var Core = window.SparkitCore, CFG = window.APP_CONFIG;
+  var LS_KEY = 'sparkit:' + CFG.id + ':v1';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  function h(s) { return String(s === undefined || s === null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+  var money0 = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  var F = {
+    money: function (n) { return money.format(Number(n) || 0); },
+    money0: function (n) { return money0.format(Math.round(Number(n) || 0)); },
+    pct: function (n, d) { return ((Number(n) || 0) * 100).toFixed(d === undefined ? 1 : d) + '%'; },
+    num: function (n, d) { return (Number(n) || 0).toLocaleString('en-US', { maximumFractionDigits: d === undefined ? 1 : d }); },
+    date: function (iso) { if (!iso) return ''; var p = iso.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); },
+    h: h
+  };
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  /* ---------- state ---------- */
+  function blank() {
+    var s = { settings: {}, tables: {}, meta: { app: CFG.id, version: 1 } };
+    CFG.settings.forEach(function (f) { s.settings[f.key] = f.default; });
+    CFG.tables.forEach(function (t) { s.tables[t.id] = []; });
+    return s;
+  }
+  var state = blank();
+  var ui = { tab: 'start', dirty: false, savedAt: null, fileName: null, handle: null, filter: {}, page: {}, restored: false };
+
+  function uid() { return Math.random().toString(36).slice(2, 10); }
+  function tdef(id) { return CFG.tables.find(function (t) { return t.id === id; }); }
+  function today() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function opts(c) { return typeof c.options === 'function' ? c.options(ctx()) : (c.options || []); }
+  function ctx() { return { state: state, s: state.settings, t: state.tables, F: F, Core: Core, cfg: CFG, MONTHS: MONTHS, h: h }; }
+
+  function backup() {return;try{if(localStorage.getItem(LS_KEY+':private')==='yes')return}catch(e){}
+    try { localStorage.setItem(LS_KEY, JSON.stringify({ state: state, savedAt: ui.savedAt, fileName: ui.fileName, dirty: ui.dirty, at: Date.now() })); } catch (e) { toast('Browser recovery is unavailable. Save an Excel copy before closing.', true); }
+  }
+  function changed() { ui.downloadPending = false; ui.dirty = true; backup(); renderStatus(); }
+
+  /* ---------- status bar ---------- */
+  function renderStatus() {
+    var el = $('#status');
+    if (!el) return;
+    var cls, msg;
+    if (ui.downloadPending) { cls = 'warn'; msg = 'Download requested. Verify your copy in Downloads.'; } else if (ui.dirty) { cls = 'warn'; msg = ui.fileName ? 'Changes not saved to ' + h(ui.fileName) + ' yet' : 'Not saved to a file yet'; }
+    else if (ui.savedAt) { cls = 'good'; msg = 'Saved to ' + h(ui.fileName) + ' at ' + new Date(ui.savedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
+    else { cls = 'neutral'; msg = 'No file open'; }
+    el.className = 'status ' + cls;
+    el.innerHTML = '<span class="dot"></span>' + msg;
+    document.title = (ui.dirty ? '• ' : '') + CFG.name;
+  }
+
+  /* ---------- file save / open ---------- */
+  function workbookSheets() {
+    var c = ctx(), sheets = [];
+    if (CFG.summarySheets) CFG.summarySheets(c).forEach(function (s) { sheets.push(s); });
+    CFG.tables.forEach(function (t) {
+      var cols = t.cols.map(function (col) { return { label: col.label, type: col.type === 'select' || col.type === 'check' ? 'text' : col.type, width: col.width }; });
+      var rows = sortedRows(t).map(function (r) {
+        return t.cols.map(function (col) {
+          var v = col.computed ? col.computed(r, c) : r[col.key];
+          if (col.type === 'check') return v ? 'Yes' : '';
+          return v;
+        });
+      });
+      sheets.push({ name: t.sheet, cols: cols, rows: rows });
+    });
+    sheets.push({
+      name: 'Settings', cols: [{ label: 'Setting', type: 'text', width: 42 }, { label: 'Value', type: 'text', width: 22 }, { label: 'Key', type: 'text', width: 18 }],
+      rows: CFG.settings.map(function (f) { return [f.label, state.settings[f.key], f.key]; }).concat([['App', CFG.name, '_app'], ['Saved', new Date().toLocaleString('en-US'), '_saved']])
+    });
+    return sheets;
+  }
+  function buildXlsx() { return Core.xlsxWrite(workbookSheets(), { title: CFG.name }); }
+  var XLSX_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+  function download(bytes, name, type) {
+    var blob = new Blob([bytes], { type: type });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+  }
+  async function save(asNew) {
+    if(ui.saving)return;ui.saving=true;try{var version=JSON.stringify(state);var bytes = buildXlsx();
+    if (window.showSaveFilePicker) {
+      try {
+        if (!ui.handle || asNew) {
+          ui.handle = await window.showSaveFilePicker({ suggestedName: ui.fileName || CFG.fileBase + '.xlsx', types: [{ description: 'Excel workbook', accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] } }] });
+        }
+        var w = await ui.handle.createWritable(); await w.write(bytes); await w.close();
+        ui.fileName = ui.handle.name; ui.downloadPending = false; ui.savedAt = Date.now(); ui.dirty = JSON.stringify(state)!==version; backup(); renderStatus();
+        toast(ui.dirty?'Earlier changes saved. Save again for the latest edits.':'Saved to '+ui.fileName+'.');
+        return;
+      } catch (e) {
+        if (e && e.name === 'AbortError') return;
+        ui.handle = null; // fall through to download
+      }
+    }
+    var name = ui.fileName || CFG.fileBase + '.xlsx';
+    download(bytes, name, XLSX_TYPE);
+    ui.downloadPending = true; backup(); renderStatus();
+    toast('Download requested. Check your downloads and open the new workbook to verify it.');}catch(err){toast('Save failed: '+err.message,true)}finally{ui.saving=false}
+  }
+
+  async function openPicked(file, handle) {
+    var name = file.name, lower = name.toLowerCase();if(file.size>12000000){toast("This file exceeds the 12 MB import limit.",true);return}
+    try {
+      if (/\.xlsx$/.test(lower)) {
+        if(ui.dirty&&!confirm("Open a workbook over unsaved changes?"))return;var grid = await Core.xlsxRead(new Uint8Array(await file.arrayBuffer()));
+        loadGrids(grid);
+        ui.fileName = name; ui.handle = handle || null;
+      } else if (/\.csv$/.test(lower)) {
+        var rows = Core.csvRead(await file.text());
+        var t = matchCsv(name, rows);
+        if (!t) { toast('That CSV doesn’t match any tab in this app. Check the column names in its first row.', true); return; }
+        const imported=Core.gridToTable(t,rows).map(withId);if(!imported.length)throw Error('No records found.');if(!confirm('Replace '+state.tables[t.id].length+' rows in '+t.title+' with '+imported.length+' CSV rows? Save your current file first if needed.'))return;state.tables[t.id]=imported;
+        toast('Loaded ' + state.tables[t.id].length + ' rows into ' + t.title + '. Save to keep them.');
+        ui.downloadPending = false; ui.dirty = true; backup(); render(); return;
+      } else { toast('Open the .xlsx file this app saved, or a .csv export.', true); return; }
+      ui.downloadPending = false; ui.savedAt = Date.now(); ui.dirty = false; backup();
+      if (ui.tab === 'start') ui.tab = CFG.home || ui.tab;
+      render();
+      toast('Opened ' + name + '.');
+    } catch (e) { toast((e && e.message) || 'That file could not be opened.', true); }
+  }
+  function withId(r) { r.id = /^[a-z0-9_-]{1,80}$/i.test(r.id||"")?r.id:uid(); return r; }
+  function matchCsv(name, rows) {
+    var base = name.toLowerCase().replace(/\.csv$/, '');
+    var byName = CFG.tables.find(function (t) { return base.indexOf(t.sheet.toLowerCase()) >= 0 || base.indexOf(t.id.toLowerCase()) >= 0; });
+    if (byName && Core.gridToTable(byName, rows)) return byName;
+    return CFG.tables.find(function (t) { var g = Core.gridToTable(t, rows); return g && g.length; });
+  }
+  function privateMode(p){
+ const d=node(p,'details',undefined,'dk-card');node(d,'summary','Browser recovery preferences');
+ let privateOnly=false;try{privateOnly=localStorage.getItem(LS_KEY+':private')==='yes'}catch(e){}
+ const message=node(d,'p',privateOnly?'File-only mode is on. Save to a file before closing this tab.':'Browser recovery is on. This profile can retain an unencrypted working copy, even after you close the app.');
+ button(d,privateOnly?'Enable browser recovery':'Use files only on this device',()=>{if(!privateOnly&&!confirm('Remove the recovery copy from this browser? The open workspace stays available. Save a file before closing.'))return;
+ if(privateOnly){localStorage.removeItem(LS_KEY+':private');backup()}else{localStorage.setItem(LS_KEY+':private','yes');localStorage.removeItem(LS_KEY)}render()},true);
+}
+
+function checkState(s){
+ if(!s||s.meta?.app!==CFG.id||!s.settings||!s.tables)throw Error('Backup belongs to a different product.');
+ let count=0;for(const t of CFG.tables){const rows=s.tables[t.id];if(!Array.isArray(rows)||rows.length>50000)throw Error('Invalid record table.');
+ for(const r of rows){if(!r||typeof r!=='object'||Array.isArray(r))throw Error('Invalid row.');for(const col of t.cols){if(r[col.key]!=null&&!['number','string','boolean'].includes(typeof r[col.key]))throw Error('Invalid field in '+t.title)}}
+ count+=rows.length}return count+' records across '+CFG.tables.length+' tables';
+}
+function restoreState(s){
+ checkState(s);const next=blank();for(const f of CFG.settings)if(Object.hasOwn(s.settings,f.key)){const v=s.settings[f.key];if(!['string','number','boolean'].includes(typeof v))throw Error('Invalid setting.');next.settings[f.key]=v}
+ for(const t of CFG.tables)next.tables[t.id]=s.tables[t.id].map(r=>{const x={};for(const c of t.cols)if(!c.computed&&Object.hasOwn(r,c.key))x[c.key]=r[c.key];return withId(x)});
+ state=next;ui.handle=null;ui.fileName=null;ui.savedAt=null;ui.tab='start';changed();render();toast('Restored into the app. Save a new Excel workbook.');
+}
+
+  function loadGrids(grids) {
+    var fresh = blank(), found = 0;
+    var names = Object.keys(grids);
+    CFG.tables.forEach(function (t) {
+      var key = names.find(function (n) { return n.toLowerCase() === t.sheet.toLowerCase(); });
+      if (key) { var rows = Core.gridToTable(t, grids[key]); if (rows) { fresh.tables[t.id] = rows.map(withId); found++; } }
+    });
+    var sk = names.find(function (n) { return n.toLowerCase() === 'settings'; });
+    if (sk) {
+      const marker=grids[sk].find(r=>r[2]==='_app');if(marker&&marker[1]!==CFG.name)throw Error('This workbook belongs to a different product.');grids[sk].slice(1).forEach(function (r) {
+        var f = CFG.settings.find(function (x) { return x.key === r[2]; });
+        if (!f) return;
+        var v = r[1];
+        if (f.type === 'number' || f.type === 'money' || f.type === 'percent') v = Core.normNum(v);
+        else if (f.type === 'check') v = v === true || /^(yes|true|1)$/i.test(String(v));
+        else v = v === undefined ? '' : String(v);
+        fresh.settings[f.key] = v;
+      });
+    }
+    if (found !== CFG.tables.length) throw new Error('That workbook wasn’t saved by ' + CFG.name + '. Open the file this app saved.');
+    state = fresh;
+  }
+  async function openFile() {
+    if (window.showOpenFilePicker) {
+      try {
+        var hs = await window.showOpenFilePicker({ types: [{ description: 'Excel or CSV', accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'], 'text/csv': ['.csv'] } }] });
+        var f = await hs[0].getFile();
+        return openPicked(f, /\.xlsx$/i.test(f.name) ? hs[0] : null);
+      } catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    $('#filein').click();
+  }
+  async function exportCsvs() {
+    var c = ctx();
+    var files = CFG.tables.map(function (t) {
+      var rows = sortedRows(t).map(function (r) { return t.cols.map(function (col) { var v = col.computed ? col.computed(r, c) : r[col.key]; if (col.type === 'check') return v ? 'Yes' : ''; if (typeof v === 'number') return Core.round2(v); return v; }); });
+      return { name: t.sheet + '.csv', data: Core.csvWrite(t.cols.map(function (x) { return x.label; }), rows) };
+    });
+    if (CFG.summarySheets) CFG.summarySheets(c).forEach(function (s) {
+      files.push({ name: s.name + '.csv', data: Core.csvWrite(s.cols.map(function (x) { return x.label; }), s.rows.map(function (r) { return r.map(function (v) { return typeof v === 'number' ? Core.round2(v) : v; }); })) });
+    });
+    if (window.showDirectoryPicker) {
+      try {
+        var dir = await window.showDirectoryPicker({ mode: 'readwrite' });
+        for (var i = 0; i < files.length; i++) {
+          var fh = await dir.getFileHandle(files[i].name, { create: true });
+          var w = await fh.createWritable(); await w.write(files[i].data); await w.close();
+        }
+        toast('Wrote ' + files.length + ' CSV files to the folder you picked.');
+        return;
+      } catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    download(Core.zipWrite(files.map(function (f) { return { name: CFG.fileBase + ' CSV/' + f.name, data: f.data }; })), CFG.fileBase + ' CSV.zip', 'application/zip');
+    toast('Saved a zip of ' + files.length + ' CSV files to your Downloads folder.');
+  }
+
+  /* ---------- toast & modal ---------- */
+  var toastTimer;
+  function toast(msg, bad) {
+    var el = $('#toast'); el.textContent = msg; el.className = 'toast show' + (bad ? ' bad' : '');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { el.className = 'toast'; }, 5200);
+  }
+  function confirmBox(title, body, okLabel, onOk) {
+    var m = $('#modal');
+    m.innerHTML = '<div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><h3 id="mt">' + h(title) + '</h3><p>' + h(body) + '</p><div class="mrow"><button class="btn" data-m="no">Cancel</button><button class="btn danger" data-m="ok">' + h(okLabel) + '</button></div></div>';
+    m.className = 'modal show';
+    m.onclick = function (e) {
+      var b = e.target.closest('[data-m]'); if (!b && e.target !== m) return;
+      m.className = 'modal'; m.innerHTML = '';
+      if (b && b.dataset.m === 'ok') onOk();
+    };
+  }
+
+  /* ---------- tables ---------- */
+  function sortedRows(t) {
+    var rows = state.tables[t.id].slice();
+    var dk = t.cols.find(function (c) { return c.type === 'date'; });
+    var fresh = ui.fresh || {};
+    if (dk) rows.sort(function (a, b) { return (fresh[b.id] || 0) - (fresh[a.id] || 0) || String(b[dk.key] || '').localeCompare(String(a[dk.key] || '')); });
+    return rows;
+  }
+  function inputFor(t, c, r) {
+    var v = r[c.key], name = 'data-k="' + c.key + '" data-id="' + r.id + '" data-t="' + t.id + '" aria-label="' + h(c.label) + '"';
+    if (c.computed) {
+      var cv = c.computed(r, ctx());
+      return '<span class="calc ' + (c.type === 'money' && cv < 0 ? 'neg' : '') + '">' + h(c.type === 'money' ? F.money(cv) : c.type === 'percent' ? F.pct(cv) : c.type === 'number' ? F.num(cv) : cv) + '</span>';
+    }
+    if (c.type === 'select') {
+      var o = opts(c), has = o.indexOf(v) >= 0;
+      return '<select ' + name + '>' + (has || !v ? '' : '<option selected>' + h(v) + '</option>') + '<option value=""></option>' + o.map(function (x) { return '<option' + (x === v ? ' selected' : '') + '>' + h(x) + '</option>'; }).join('') + '</select>';
+    }
+    if (c.type === 'check') return '<input type="checkbox" ' + name + (v ? ' checked' : '') + '>';
+    if (c.type === 'date') return '<input type="date" ' + name + ' value="' + h(v || '') + '">';
+    if (c.type === 'money' || c.type === 'number' || c.type === 'percent') {
+      var shown = v === '' || v === undefined ? '' : (c.type === 'percent' ? Core.round2(v * 100) : v);
+      return '<input type="number" inputmode="decimal" step="' + (c.step || 'any') + '" ' + name + ' value="' + h(shown) + '"' + (c.type === 'percent' ? ' data-pct="1"' : '') + '>';
+    }
+    return '<input type="text" ' + name + ' value="' + h(v || '') + '"' + (c.list ? ' list="dl-' + t.id + '-' + c.key + '"' : '') + '>';
+  }
+  function monthOf(r, t) { var dk = t.cols.find(function (c) { return c.type === 'date'; }); return dk && r[dk.key] ? +r[dk.key].slice(5, 7) : 0; }
+  function renderTable(t) {
+    var f = ui.filter[t.id] || { m: 0, q: '' };
+    var all = sortedRows(t);
+    var rows = all.filter(function (r) {
+      if (f.m && monthOf(r, t) !== f.m) return false;
+      if (f.q) { var q = f.q.toLowerCase(); return t.cols.some(function (c) { return !c.computed && String(r[c.key] || '').toLowerCase().indexOf(q) >= 0; }); }
+      return true;
+    });
+    var page = ui.page[t.id] || 200, shown = rows.slice(0, page);
+    var c = ctx();
+    var totals = t.cols.map(function (col) {
+      if (!(col.total)) return '';
+      var sum = rows.reduce(function (s, r) { return s + (Number(col.computed ? col.computed(r, c) : r[col.key]) || 0); }, 0);
+      return col.type === 'money' ? F.money(sum) : F.num(sum);
+    });
+    var dl = t.cols.filter(function (col) { return col.list; }).map(function (col) {
+      var vals = {}; state.tables[t.id].forEach(function (r) { if (r[col.key]) vals[r[col.key]] = 1; });
+      return '<datalist id="dl-' + t.id + '-' + col.key + '">' + Object.keys(vals).slice(0, 300).map(function (v) { return '<option value="' + h(v) + '">'; }).join('') + '</datalist>';
+    }).join('');
+    return '<div class="panel"><div class="ph"><div><h2>' + h(t.title) + '</h2><p class="sub">' + h(t.help || '') + '</p></div>' +
+      '<div class="tools"><button class="btn primary" data-act="add" data-t="' + t.id + '">+ Add ' + h(t.noun || 'row') + '</button></div></div>' +
+      '<div class="filters"><label>Month <select data-filter="m" data-t="' + t.id + '"><option value="0">All months</option>' + MONTHS.map(function (m, i) { return '<option value="' + (i + 1) + '"' + (f.m === i + 1 ? ' selected' : '') + '>' + m + '</option>'; }).join('') + '</select></label>' +
+      '<label>Search <input type="search" data-filter="q" data-t="' + t.id + '" value="' + h(f.q) + '" placeholder="Type to filter"></label>' +
+      '<span class="count">' + rows.length + ' of ' + all.length + ' ' + h(t.plural || 'rows') + '</span></div>' +
+      (all.length ? '' : '<div class="empty">' + h(t.empty || 'Nothing here yet.') + ' <button class="link" data-act="add" data-t="' + t.id + '">Add the first one</button></div>') +
+      (all.length ? '<div class="tablewrap"><table class="grid"><thead><tr>' + t.cols.map(function (col) { return '<th class="' + (col.type || 'text') + '">' + h(col.label) + '</th>'; }).join('') + '<th class="x"><span class="sr">Delete</span></th></tr></thead><tbody>' +
+        shown.map(function (r) { return '<tr data-row="' + r.id + '">' + t.cols.map(function (col) { return '<td class="' + (col.type || 'text') + (col.computed ? ' comp' : '') + '">' + inputFor(t, col, r) + '</td>'; }).join('') + '<td class="x"><button class="del" title="Delete this row" aria-label="Delete row" data-act="del" data-t="' + t.id + '" data-id="' + r.id + '">&times;</button></td></tr>'; }).join('') +
+        '</tbody>' + (t.cols.some(function (x) { return x.total; }) ? '<tfoot><tr>' + totals.map(function (v, i) { return '<td class="' + (t.cols[i].type || 'text') + '">' + (i === 0 ? '<b>Total</b>' : '<b>' + v + '</b>') + '</td>'; }).join('') + '<td></td></tr></tfoot>' : '') + '</table></div>' : '') +
+      (rows.length > page ? '<div class="more"><button class="btn" data-act="more" data-t="' + t.id + '">Show more</button></div>' : '') + dl + '</div>';
+  }
+  function addRow(tid) {
+    var t = tdef(tid), r = { id: uid() };
+    t.cols.forEach(function (c) { if (c.computed) return; r[c.key] = c.type === 'date' ? today() : c.default !== undefined ? (typeof c.default === 'function' ? c.default(ctx()) : c.default) : ''; });
+    state.tables[tid].unshift(r);
+    ui.fresh = ui.fresh || {}; ui.fresh[r.id] = Date.now();
+    ui.filter[tid] = { m: 0, q: '' };
+    changed(); render();
+    var first = $('tr[data-row="' + r.id + '"] input:not([type=date]), tr[data-row="' + r.id + '"] select');
+    if (first) first.focus();
+  }
+
+  /* ---------- settings ---------- */
+  function renderSettings() {
+    var groups = {};
+    CFG.settings.forEach(function (f) { (groups[f.group || 'Settings'] = groups[f.group || 'Settings'] || []).push(f); });
+    return '<div class="panel"><div class="ph"><div><h2>Settings</h2><p class="sub">These are saved inside your file with everything else.</p></div></div>' +
+      Object.keys(groups).map(function (g) {
+        return '<fieldset><legend>' + h(g) + '</legend>' + groups[g].map(function (f) {
+          var v = state.settings[f.key], inp;
+          if (f.type === 'select') inp = '<select data-set="' + f.key + '">' + f.options.map(function (o) { var val = Array.isArray(o) ? o[0] : o, lab = Array.isArray(o) ? o[1] : o; return '<option value="' + h(val) + '"' + (String(val) === String(v) ? ' selected' : '') + '>' + h(lab) + '</option>'; }).join('') + '</select>';
+          else if (f.type === 'check') inp = '<input type="checkbox" data-set="' + f.key + '"' + (v ? ' checked' : '') + '>';
+          else if (f.type === 'text') inp = '<input type="text" data-set="' + f.key + '" value="' + h(v) + '">';
+          else inp = '<input type="number" inputmode="decimal" step="any" data-set="' + f.key + '" value="' + h(f.type === 'percent' ? Core.round2(v * 100) : v) + '"' + (f.type === 'percent' ? ' data-pct="1"' : '') + '>' + (f.type === 'percent' ? '<span class="unit">%</span>' : '');
+          return '<div class="field"><label>' + h(f.label) + '</label><div class="fin">' + inp + '</div>' + (f.help ? '<p class="help">' + h(f.help) + '</p>' : '') + '</div>';
+        }).join('') + '</fieldset>';
+      }).join('') +
+      '<fieldset><legend>Your data</legend><div class="field"><p class="help">Start over with an empty file. Your saved .xlsx file is not touched until you save again.</p><button class="btn" data-act="sample">Load the example data</button> <button class="btn danger" data-act="clear">Clear everything</button></div></fieldset></div>';
+  }
+
+  /* ---------- start page ---------- */
+  function renderStart() {
+    var has = CFG.tables.some(function (t) { return state.tables[t.id].length; });
+    return '<div class="hero"><div class="hero-text"><p class="eyebrow">' + h(CFG.eyebrow) + '</p><h1>' + h(CFG.name) + '</h1><p class="lead">' + h(CFG.tagline) + '</p>' +
+      '<div class="cta"><button class="btn primary big" data-act="' + (has ? 'gohome' : 'new') + '">' + (has ? 'Go to my dashboard' : 'Start a new file') + '</button><button class="btn big" data-act="open">Open my saved file</button>' + (has ? '' : '<button class="btn big ghost" data-act="sample">Try it with example data</button>') + '</div></div>' +
+      '<ol class="steps"><li><b>Add your numbers</b><span>' + h(CFG.step1) + '</span></li><li><b>Press Save</b><span>Your records go into one Excel file on your computer. Nothing is uploaded anywhere.</span></li><li><b>Open it next time</b><span>Open this app, press <i>Open my saved file</i>, pick the same file. That’s your database.</span></li></ol></div>' +
+      '<div class="cards3">' + CFG.features.map(function (f) { return '<div class="feat"><b>' + h(f[0]) + '</b><span>' + h(f[1]) + '</span></div>'; }).join('') + '</div>' +
+      '<div class="note"><b>Good to know.</b> ' + h(CFG.startNote || '') + ' This app works offline in Chrome, Edge, Safari or Firefox on a computer. It doesn’t run on phones; for your phone, use the included Excel workbook in the Excel or Google Sheets app. ' + (CFG.disclaimer ? h(CFG.disclaimer) : '') + '</div>';
+  }
+
+  /* ---------- main render ---------- */
+  function tabs() {
+    var t = [['start', 'Deposit check']];
+    CFG.views.forEach(function (v) { t.push([v.id, v.label]); });
+    CFG.tables.forEach(function (x) { t.push([x.id, x.tab || x.title]); });
+    t.push(['settings', 'Settings']);
+    return t;
+  }
+  function render() {
+    var c = ctx(), body;
+    var view = CFG.views.find(function (v) { return v.id === ui.tab; });
+    var t = tdef(ui.tab);
+    if (ui.tab === 'start') body = '<div class="desk" id="decision"></div>';
+    else if (ui.tab === 'settings') body = renderSettings();
+    else if (view) body = view.render(c);
+    else if (t) body = renderTable(t);
+    else { ui.tab = 'start'; body = renderStart(); }
+    $('#nav').innerHTML = tabs().map(function (x) { return '<button role="tab" aria-selected="' + (x[0] === ui.tab) + '" class="tab' + (x[0] === ui.tab ? ' on' : '') + '" data-tab="' + x[0] + '">' + h(x[1]) + '</button>'; }).join('');
+    $('#main').innerHTML = (window.__sparkitBanner ? window.__sparkitBanner() : '') + body;
+    if(ui.tab==='start'){const p=document.getElementById('decision');sellerDesk(p)}
+    $('#printhead').textContent = CFG.name + ' — ' + (tabs().find(function (x) { return x[0] === ui.tab; }) || ['', ''])[1] + ' — printed ' + new Date().toLocaleDateString('en-US');
+    renderStatus();
+    if (view && view.after) view.after(c);
+  }
+
+  /* ---------- events ---------- */
+  function bind() {
+    document.addEventListener('click', function (e) {
+      var tab = e.target.closest('[data-tab]');
+      if (tab) { ui.tab = tab.dataset.tab; ui.fresh = {}; render(); window.scrollTo(0, 0); return; }
+      var b = e.target.closest('[data-act]'); if (!b) return;
+      var a = b.dataset.act;
+      if (a === 'save') save(false);
+      else if (a === 'saveas') save(true);
+      else if (a === 'open') openFile();
+      else if (a === 'csv') exportCsvs();
+      else if (a === 'print') window.print();
+      else if (a === 'add') addRow(b.dataset.t);
+      else if (a === 'more') { ui.page[b.dataset.t] = (ui.page[b.dataset.t] || 200) + 200; render(); }
+      else if (a === 'del') {
+        var arr = state.tables[b.dataset.t], i = arr.findIndex(function (r) { return r.id === b.dataset.id; });
+        if (i >= 0) { var gone = arr.splice(i, 1)[0]; changed(); render(); toastUndo(b.dataset.t, gone, i); }
+      }
+      else if (a === 'new') { if (CFG.tables.some(function (t) { return state.tables[t.id].length; })) { confirmBox('Start a new file?', 'This clears what is on screen. Anything you saved to a file stays in that file.', 'Start new', function () { state = blank(); ui.fileName = null; ui.handle = null; ui.savedAt = null; ui.dirty = false; backup(); ui.tab = CFG.firstTable; render(); }); } else { ui.tab = CFG.firstTable; render(); } }
+      else if (a === 'gohome') { ui.tab = CFG.home; render(); }
+      else if (a === 'sample') confirmBox('Load the example data?', 'This replaces what is on screen with a made-up example business so you can see how everything works. Your saved files are not changed.', 'Load example', function () { state = CFG.sample(blank(), Core); state.tables && Object.keys(state.tables).forEach(function (k) { state.tables[k].forEach(withId); }); ui.fileName = null; ui.handle = null; ui.savedAt = null; ui.downloadPending = false; ui.dirty = true; backup(); ui.tab = CFG.home; render(); toast('Example data loaded. Press Clear everything in Settings when you’re ready to start your own.'); });
+      else if (a === 'clear') confirmBox('Clear everything?', 'This empties every tab on screen. Your saved .xlsx file is not changed unless you save over it.', 'Clear', function () { state = blank(); ui.fileName = null; ui.handle = null; ui.savedAt = null; ui.dirty = false; backup(); render(); toast('Cleared. You have a fresh, empty app.'); });
+      else if (a === 'undo') { var u = ui.undo; if (u) { state.tables[u.t].splice(u.i, 0, u.row); ui.undo = null; changed(); render(); $('#toast').className = 'toast'; } }
+      else if (CFG.actions && CFG.actions[a]) { CFG.actions[a](ctx(), b); changed(); render(); }
+    });
+    document.addEventListener('change', function (e) {
+      var el = e.target;
+      if (el.id === 'filein') { if (el.files[0]) openPicked(el.files[0]); el.value = ''; return; }
+      if (el.dataset.filter) { var f = ui.filter[el.dataset.t] || { m: 0, q: '' }; if (el.dataset.filter === 'm') f.m = +el.value; ui.filter[el.dataset.t] = f; render(); return; }
+      if (el.dataset.set) {
+        var fd = CFG.settings.find(function (x) { return x.key === el.dataset.set; }), v;
+        if (el.type === 'checkbox') v = el.checked;
+        else if (el.type === 'number') { v = el.value === '' ? 0 : Number(el.value); if (el.dataset.pct) v = v / 100; }
+        else v = el.value;
+        state.settings[fd.key] = v; changed(); if (ui.tab !== 'settings') render(); return;
+      }
+      if (el.dataset.k && el.dataset.id) {
+        var t = tdef(el.dataset.t), r = state.tables[t.id].find(function (x) { return x.id === el.dataset.id; });
+        var col = t.cols.find(function (c) { return c.key === el.dataset.k; });
+        var val;
+        if (el.type === 'checkbox') val = el.checked;
+        else if (el.type === 'number') { val = el.value === '' ? '' : Number(el.value); if (el.dataset.pct && val !== '') val = val / 100; }
+        else val = el.value;
+        r[col.key] = val;
+        if (col.onChange) col.onChange(r, ctx());
+        changed();
+        // refresh computed cells in this row and the footer
+        if (t.cols.some(function (c) { return c.computed || c.total; }) || col.onChange) {
+          var keep = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.k : null;
+          var scroll = window.scrollY; render(); window.scrollTo(0, scroll);
+          if (keep) { var again = $('[data-id="' + r.id + '"][data-k="' + keep + '"]'); if (again) again.focus(); }
+        }
+      }
+    });
+    document.addEventListener('input', function (e) {
+      var el = e.target;
+      if (el.dataset.filter === 'q') {
+        var f = ui.filter[el.dataset.t] || { m: 0, q: '' }; f.q = el.value; ui.filter[el.dataset.t] = f;
+        clearTimeout(ui.qt); ui.qt = setTimeout(function () { render(); var s = $('[data-filter="q"]'); if (s) { s.focus(); s.setSelectionRange(s.value.length, s.value.length); } }, 250);
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); if (document.activeElement) document.activeElement.blur(); setTimeout(function () { save(false); }, 0); }
+    });
+    window.addEventListener('beforeunload', function (e) { if (false) { e.preventDefault(); e.returnValue = ''; } });
+    // drag a saved file onto the window to open it
+    window.addEventListener('dragover', function (e) { e.preventDefault(); });
+    window.addEventListener('drop', function (e) { e.preventDefault(); var f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) openPicked(f); });
+  }
+  function toastUndo(t, row, i) {
+    ui.undo = { t: t, row: row, i: i };
+    var el = $('#toast'); el.innerHTML = 'Row deleted. <button class="link" data-act="undo">Undo</button>'; el.className = 'toast show';
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { el.className = 'toast'; ui.undo = null; }, 7000);
+  }
+
+  /* ---------- boot ---------- */
+  function boot() {
+    document.documentElement.style.setProperty('--accent', CFG.accent || '#2563EB');
+    try {
+      var raw = null;
+      if (raw) {
+        var b = JSON.parse(raw);
+        if (b && b.state && b.state.tables) {
+          state = blank();
+          Object.assign(state.settings, b.state.settings || {});
+          CFG.tables.forEach(function (t) { state.tables[t.id] = (b.state.tables[t.id] || []).map(withId); });
+          ui.fileName = b.fileName || null; ui.savedAt = b.savedAt || null; ui.dirty = !!b.dirty;
+          ui.tab='start';
+          if (b.dirty) ui.restored = true;
+        }
+      }
+    } catch (e) { /* no storage: fine */ }
+    state = CFG.sample(blank(), Core); Object.keys(state.tables).forEach(function (k) { state.tables[k].forEach(withId); }); state.settings.useLabor = true; state.settings.hourly = 20; state.settings.targetMargin = 0.4; ui.tab = CFG.home;
+    bind(); render();
+    if (ui.restored) toast('Picked up where you left off. These changes are not in your file yet, so press Save.');
+  }
+  
+// All amounts used in decisions are integer cents. File parsing never changes records.
+const DeskCore = (() => {
+ const DAY = 86400000;
+ function cents(value, label = 'Amount', signed = true) {
+   const raw=String(value ?? '').trim().replace(/^\$/, '');
+   if(!/^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d{1,2})?$/.test(raw)) throw Error(label+' needs a dollar amount with up to two decimal places.');
+   const n=Math.round(Number(raw.replace(/,/g,''))*100);
+   if(!Number.isSafeInteger(n)||Math.abs(n)>1e12||(!signed&&n<0))throw Error(label+' is outside the supported range.');
+   return n;
+ }
+ function day(s){if(!/^\d{4}-\d\d-\d\d$/.test(s)||!Number.isFinite(Date.parse(s))||new Date(s).toISOString().slice(0,10)!==s)throw Error('Use a valid date in YYYY-MM-DD format.');return Date.parse(s)/DAY}
+ const date=d=>new Date(d*DAY).toISOString().slice(0,10);
+ function runway({start,balance,purchase,buffer,paycheck,payday,cycle,bills,daily}){
+  const begin=day(start), first=day(payday);if(![7,14].includes(cycle)||first<begin)throw Error('Choose the next payday today or later.');
+  const current=cents(balance),cost=cents(purchase,'Purchase',false),floor=cents(buffer,'Reserve',false),pay=cents(paycheck,'Paycheck',false),allowance=cents(daily,'Daily spending',false);
+  const clean=bills.map(b=>{if(!(Number.isInteger(+b.day)&&+b.day>=1&&+b.day<=31))throw Error('Correct the due day for '+(b.name||'an unnamed bill')+' in Bills.');return {...b,sum:cents(b.amount,'Bill amount',false)}});
+  let cash=current-cost,low=cash,when=start,cause='opening balance after purchase';const events=[];
+  function post(i,name,change){cash+=change;events.push([date(i),name,change,cash]);if(cash<low){low=cash;when=date(i);cause=name}}
+  for(let i=begin;i<begin+35;i++){const d=new Date(i*DAY),last=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,0)).getUTCDate();
+   for(const b of clean)if(Math.min(+b.day,last)===d.getUTCDate())post(i,b.name||'Bill',-b.sum);
+   if(allowance)post(i,'Daily spending allowance',-allowance);
+   if(i>=first&&(i-first)%cycle===0)post(i,'Paycheck',pay);
+  }
+  return {low,when,cause,room:Math.max(0,low+cost-floor),gap:Math.max(0,floor-low),events,remaining:cash};
+ }
+ function statement(grid,opening,closing,bank){
+  const [head=[],...rows]=grid, col=k=>head.findIndex(x=>String(x).trim().toLowerCase()===k);
+  const type=col('type'),net=col('net'),currency=col('currency');if(type<0||net<0)throw Error('Choose the Payment account monthly statement with Type and Net columns.');
+  const groups=new Map(),issues=[],excluded=[];let count=0;
+  rows.forEach((r,i)=>{if(!r.some(x=>String(x).trim()))return;const t=String(r[type]||'').trim(),code=String(r[currency]||'').trim();
+   if(code&&code!=='USD'){issues.push('Row '+(i+2)+': '+code+' is outside this USD report.');return}
+   if(/^deposit$/i.test(t)){excluded.push(i+2);return}
+   try{if(!t)throw Error('Missing activity type.');const n=cents(String(r[net]??'').replace(/^\((.+)\)$/,'-$1').replace(/^(-?)\$/,'$1'),'Net');groups.set(t,(groups.get(t)||0)+n);count++}catch(e){issues.push('Row '+(i+2)+': '+e.message)}
+  });
+  if(!count&&!excluded.length&&!issues.length)throw Error('The statement contains no activity rows.');
+  const expected=cents(opening)+[...groups.values()].reduce((a,b)=>a+b,0)-cents(closing);
+  return {groups:[...groups],issues,excluded,count,expected,difference:expected-cents(bank,'Bank deposits',false)};
+ }
+ function reprices(clients,jobs,defaultMargin){
+  return clients.filter(c=>c.active&&c.freq!=='once').map(c=>{
+   const visits=jobs.filter(j=>j.clientId===c.id).sort((a,b)=>b.date.localeCompare(a.date)||(b.seq||0)-(a.seq||0)).slice(0,3);
+   if(!visits.length||!(defaultMargin>=0&&defaultMargin<1))return null;
+   const costs=visits.map(j=>cents(j.labor,'Labor',false)+cents(j.supplies,'Supplies',false));
+   const avg=costs.reduce((a,b)=>a+b,0)/costs.length,target=Math.ceil(avg/(1-defaultMargin)-1e-8),price=cents(c.price);
+   return {id:c.id,name:c.name,visits,avg,target,price,gap:target-price};
+  }).filter(r=>r&&r.gap>0).sort((a,b)=>b.gap-a.gap);
+ }
+ function certificate(events,next){
+  const ledger=new Map();for(const e of next?[...events,next]:events){
+   if(!e||!/^[A-Z0-9][A-Z0-9_-]{2,39}$/.test(e.code)||!Number.isSafeInteger(e.amount)||e.amount<=0||e.amount>1e10||!['issue','redeem'].includes(e.kind))throw Error('Use a valid certificate ID and a positive amount.');
+   day(e.date);const old=ledger.get(e.code);
+   if(e.kind==='issue'&&old)throw Error('This ID was already issued. Choose a new ID.');
+   if(e.kind==='redeem'&&(!old||e.amount>old.balance))throw Error(old?'Redemption exceeds the remaining balance.':'Issue this certificate before redeeming it.');
+   if(old&&e.date<old.last)throw Error('Use a date on or after the previous activity.');
+   ledger.set(e.code,{balance:(old?.balance||0)+(e.kind==='issue'?e.amount:-e.amount),last:e.date,issued:old?.issued||e.amount});
+  }return ledger;
+ }
+ return {cents,day,date,runway,statement,reprices,certificate};
+})();
+
+function node(p,tag,text,cls){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;p.append(e);return e}
+function usd(c){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(c/100)}
+function input(p,label,type,value){const l=node(p,'label',undefined,'dk-field');node(l,'span',label);const e=node(l,'input');e.type=type;if(type==='number')e.step='any';if(value!==undefined)e.value=value;return e}
+function select(p,label,opts){const l=node(p,'label',undefined,'dk-field');node(l,'span',label);const e=node(l,'select');for(const [k,v] of opts){const o=node(e,'option',v);o.value=k}return e}
+function button(p,label,fn,soft=false){const b=node(p,'button',label,soft?'dk-quiet':'dk-action');b.type='button';b.addEventListener('click',async()=>{b.disabled=true;const error=p.querySelector('.dk-error');if(error)error.remove();try{await fn()}catch(e){const msg=node(p,'p',e.message,'dk-error');msg.setAttribute('role','alert')}finally{b.disabled=false}});return b}
+function table(p,headers,rows){const wrap=node(p,'div',undefined,'dk-scroll'),t=node(wrap,'table'),h=node(node(t,'thead'),'tr');headers.forEach(v=>node(h,'th',v));const body=node(t,'tbody');for(const row of rows){const tr=node(body,'tr');row.forEach(v=>node(tr,'td',v))}return body}
+function section(p,title,hint){const s=node(p,'section',undefined,'dk-card');node(s,'h2',title);if(hint)node(s,'p',hint,'dk-hint');return s}
+function result(p,text,value,detail){const box=node(p,'section',undefined,'dk-result');node(box,'span',text);node(box,'strong',value);node(box,'p',detail);box.setAttribute('aria-live','polite');return box}
+function saveText(name,value,type='text/plain'){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([value],{type}));a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000)}
+function bounded(f,max=8*1024*1024){if(!f)throw Error('Choose a file first.');if(f.size>max)throw Error('Split this file into smaller periods before importing.');return f}
+function hero(p,label,title,description){const h=node(p,'header',undefined,'dk-hero');node(h,'span',label);node(h,'h1',title);node(h,'p',description)}
+function isoToday(){const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+
+// Versioned password-protected files use Web Crypto only. No key or password is retained.
+const Vault = (() => {
+ const enc=new TextEncoder(),dec=new TextDecoder(),rounds=600000;
+ const pack=a=>{let s='';for(let i=0;i<a.length;i+=8192)s+=String.fromCharCode(...a.subarray(i,i+8192));return btoa(s)};
+ const unpack=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+ async function key(pass,salt){if(!globalThis.crypto?.subtle)throw Error('Protected files require Web Crypto. Use the standard export on this browser.');
+ const material=await crypto.subtle.importKey('raw',enc.encode(pass),'PBKDF2',false,['deriveKey']);
+ return crypto.subtle.deriveKey({name:'PBKDF2',hash:'SHA-256',salt,iterations:rounds},material,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+ async function seal(app,record,pass){if(pass.length<12)throw Error('Choose a passphrase of at least 12 characters.');const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),k=await key(pass,salt);
+ const body=enc.encode(JSON.stringify(record));if(body.length>8000000)throw Error('Use the standard export for workspaces larger than 8 MB.');
+ const cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv,additionalData:enc.encode(app)},k,body);return {format:'sparkit-recovery',version:1,app,salt:pack(salt),iv:pack(iv),cipher:pack(new Uint8Array(cipher))}}
+ async function read(app,envelope,pass){if(envelope?.format!=='sparkit-recovery'||envelope.version!==1||envelope.app!==app)throw Error('Choose a protected backup made by this product.');
+ try{const salt=unpack(envelope.salt),iv=unpack(envelope.iv);if(salt.length!==16||iv.length!==12)throw Error();const k=await key(pass,salt);
+ return JSON.parse(dec.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv,additionalData:enc.encode(app)},k,unpack(envelope.cipher))))}catch(e){throw Error('Backup could not be unlocked. Check the passphrase and file. Your current records are unchanged.')}}
+ return {seal,read};
+})();
+function recovery(p,app,get,validate,apply){
+ const d=node(p,'details',undefined,'dk-card');node(d,'summary','Protect a copy or check a backup');
+ node(d,'p','Your working data can be read by anyone using this device profile. A protected copy encrypts the downloaded backup only. Keep its passphrase separately. Losing it makes that copy unreadable. Plain Excel, CSV and JSON exports remain readable.');
+ const pass=input(d,'Backup passphrase','password');pass.autocomplete='off';const again=input(d,'Repeat when creating a copy','password');again.autocomplete='off';
+ button(d,'Download protected copy',async()=>{if(pass.value!==again.value)throw Error('The passphrases must match.');const data=await Vault.seal(app,get(),pass.value);saveText(app+'-'+isoToday()+'.sparkit',JSON.stringify(data),'application/json');pass.value=again.value='';node(d,'p','Download requested. Choose the downloaded file below to check it.')});
+ const file=input(d,'Check or restore a protected copy','file');file.accept='.sparkit';const preview=node(d,'div');
+ button(d,'Unlock and check',async()=>{preview.replaceChildren();const f=bounded(file.files[0],12000000),candidate=await Vault.read(app,JSON.parse(await f.text()),pass.value);const summary=validate(candidate);pass.value=again.value='';node(preview,'p','Verified '+f.name+' · '+summary);
+ button(preview,'Replace current records with this copy',()=>{if(!confirm('Replace the current workspace with the checked backup? Save the current records first if you need both.'))return;apply(candidate);preview.replaceChildren();node(preview,'p','Restored. Save a fresh working copy.')},true)},true);
+}
+
+function sellerDesk(p){
+ hero(p,'Etsy payment account','Where did this month’s payout go?','Trace statement activity to the cash that reached the bank. See each activity type once, with deposits separated from operating activity.');
+ const s=section(p,'Reconcile a statement','Use an English USD monthly statement from Shop Manager → Finances → Monthly statements. Use opening and closing Payment account balances on the same basis, including held funds.');const file=input(s,'Etsy monthly statement CSV','file');file.accept='.csv';const g=node(s,'div',undefined,'dk-grid');const start=input(g,'Opening account balance ($)','number'),end=input(g,'Closing account balance ($)','number'),bank=input(g,'Bank deposits for the period ($)','number');const out=node(p,'div');
+ function show(grid,a,b,c,sample){out.replaceChildren();const r=DeskCore.statement(grid,a,b,c);
+ if(r.issues.length){result(out,'Statement needs review',r.issues.length+' flagged rows','Resolve the rows below before comparing deposits.');table(out,['Problem'],r.issues.map(v=>[v]));return}
+ result(out,(sample?'Worked example · ':'')+'Deposit difference',usd(r.difference),r.difference===0?'Statement and bank agree for this period.':r.difference>0?'Expected transfers exceed bank receipts. Check payouts still in transit at period end.':'Bank receipts exceed expected transfers. Check the prior period’s last payout.');
+ const lines=[['Opening balance',usd(DeskCore.cents(a))],...r.groups.map(([k,v])=>[k,usd(v)]),['Less closing balance',usd(-DeskCore.cents(b))],['Expected bank transfers',usd(r.expected)],['Actual bank receipts',usd(DeskCore.cents(c))],['Difference',usd(r.difference)]];
+ const z=section(out,'Statement bridge',r.count+' activity rows included · '+r.excluded.length+' deposit rows excluded to avoid counting transfers twice.');table(z,['Activity','Amount'],lines);button(z,'Download this review',()=>saveText('deposit-review.txt',[sample?'Fictional example':'Statement: '+file.files[0]?.name,...lines.map(x=>x.join('  '))].join('\n')),true);
+ }
+ button(s,'Reconcile deposits',async()=>{const f=bounded(file.files[0]);show(Core.csvRead(await f.text()),start.value,end.value,bank.value,false)});
+ button(s,'Try a worked example',()=>show([['Type','Net','Currency'],['Sale','125.00','USD'],['Fee','-12.50','USD'],['Refund','-15','USD'],['Deposit','--','USD']],20,17.5,98,true),true);
+}
+
+
+window.SparkitApp = { boot: boot, render: render, state: function () { return state; }, setState: function (s) { state = s; render(); }, buildXlsx: buildXlsx, F: F, openPicked: openPicked, ui: ui, toast: toast, exportCsvs: exportCsvs, workbookSheets: workbookSheets };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+
+</script>
+
+
+<script>
+(function(){
+'use strict';
+var STRIPE='https://buy.stripe.com/14A8wId3O26q3CUckN6J200',PRODUCT='Etsy Seller Profit and Fee Tracker';
+var SPARK='<svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="26" fill="#4047C9"/><g transform="translate(17 17) scale(.66)"><path d="M50 2C46 35 35 46 8 50C35 54 46 65 50 98Z" fill="#fff"/><path d="M50 2C54 35 65 46 92 50C65 54 54 65 50 98Z" fill="#E4E6FF"/></g></svg>';
+var CFG={
+sample:'Example Makers Co., a small shop selling candles, keychains, hats and printables.',
+sticky:'.top',
+off:['open','save','saveas','csv','print','new','clear','sample'],
+offMsg:{print:'Printing is switched off in this demo. Your own copy prints or saves a PDF.',new:'In your own copy, this clears the sample so you can start with your shop.',clear:'In your own copy, this clears the sample so you can start with your shop.',sample:'This demo already shows the example shop.'},
+tips:{start:'Match an Etsy monthly statement to what reached your bank',dash:'What you kept, where your fees went and profit by product',pricing:'The price each product needs to hit your margin',products:'Each thing you sell, with its costs',orders:'One row per Etsy order, with its fees and profit',expenses:'Ads, supplies and other shop costs',settings:'Fee rates, your margin and your time'},
+init:function(o){function setH(){document.documentElement.style.setProperty('--sp-bh',o.bar.offsetHeight+'px');}setH();window.addEventListener('resize',setH);
+  window.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();e.stopPropagation();o.toast('Saving and loading files is switched off in this demo. Your own copy does it.');}},true);},
+steps:[
+ {route:function(){tab('dash');},target:function(){return document.querySelector('#main .kpis');},
+  title:'What your shop actually kept',
+  body:'What you kept after Etsy fees, costs and your time, plus sales and profit per order. This is a demo with sample data; yours shows your own shop.'},
+ {route:function(){tab('dash');},target:function(){return panelByTitle('Where your Etsy fees go');},
+  title:'Every Etsy fee, itemized',
+  body:'The 6.5% transaction fee, payment processing, listing renewals, Offsite Ads and currency conversion, each added up for the year. Mark an order as coming from an Offsite Ad and its fee is counted.'},
+ {route:function(){tab('dash');},target:function(){return panelByTitle('Profit by product');},
+  title:'Profit by product',
+  body:'Each product’s sales, Etsy fees, materials, packaging and labels, ranked by what it leaves you. You see which listings to push and which to reprice.'},
+ {route:function(){tab('pricing');},target:function(){return panelByTitle('Pricing check');},
+  title:'The price that hits your margin',
+  body:'Each product at its current price, with one sale’s fees and costs, your time included. Products under your target margin are flagged, and the last column is the lowest price that reaches it.'},
+ {title:'Want this for your shop?',
+  body:'For $149, Sparkit sets the app up for you with your own products, costs and margin, so it is ready to use from day one.',
+  list:['Runs in your web browser, no monthly fee','Every Etsy fee, profit per product and a price for your target margin','Your records stay in an Excel file you keep']}
+]};
+function q(s,r){return (r||document).querySelector(s);}
+function qa(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+function tab(id){var b=document.querySelector('#nav [data-tab="'+id+'"]');if(b&&!b.classList.contains('on'))b.click();}
+function panelByTitle(start){return qa('#main .panel').find(function(c){var h=c.querySelector('h2,h3');return h&&h.textContent.trim().indexOf(start)===0;});}
+function cardByTitle(start){return qa('#main .card').find(function(c){var h=c.querySelector('h2');return h&&h.textContent.trim().indexOf(start)===0;});}
+var tt;function toast(m){var t=q('.sp-toast');if(!t){t=document.createElement('div');t.className='sp-toast';t.setAttribute('role','status');document.body.appendChild(t);}t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(function(){t.hidden=true;},3200);}
+window.__sparkitToast=toast;
+// demo note at the top of each view
+window.__sparkitBanner=function(){return '<div class="sp-note"><div><b>Sample business:</b> '+CFG.sample+' Tap anything. Nothing you change is kept.</div><a class="sp-b pri" href="'+STRIPE+'" target="_blank" rel="noopener">Get it set up for $149</a></div>';};
+// printed pages open in a preview
+window.__sparkitPreview=function(html){
+  var w=document.createElement('div');w.className='sp-pv';w.setAttribute('role','dialog');w.setAttribute('aria-modal','true');
+  w.innerHTML='<div class="sp-pv-in"><div class="sp-pv-hd"><div>Print preview<small>In the real app this goes to your printer or saves as a PDF.</small></div><button class="sp-b pri" type="button">Close</button></div><div class="sp-pv-body"></div></div>';
+  w.querySelector('.sp-pv-body').innerHTML=html;nowrap(w);
+  function close(){w.remove();document.removeEventListener('keydown',esc);var n=document.querySelector('.sp-card [data-sp="next"]');if(n)n.focus({preventScroll:true});}
+  function esc(e){if(e.key==='Escape')close();}
+  w.querySelector('button').addEventListener('click',close);
+  w.addEventListener('click',function(e){if(e.target===w)close();});
+  document.addEventListener('keydown',esc);document.body.appendChild(w);w.querySelector('button').focus();
+};
+// actions that save files or wipe the sample are switched off
+var OFF=CFG.off||[];
+window.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('[data-act]');if(!el)return;var a=el.getAttribute('data-act');
+  if(OFF.indexOf(a)>=0){e.stopPropagation();e.preventDefault();toast((CFG.offMsg&&CFG.offMsg[a])||(a==='startOwn'||a==='loadExample'?'In your own copy, this clears the sample so you can start with your clients.':'Saving and loading files is switched off in this demo. Your own copy does it.'));}
+},true);
+window.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.desk button,.desk input[type=file]');if(!b)return;var t=(b.textContent||'').toLowerCase();
+  if(/start (my|with my) own/.test(t)){e.stopPropagation();e.preventDefault();toast('In your own copy, this clears the sample so you can start with your clients.');return;}
+  if(b.tagName==='INPUT'||/backup|download|export|restore|import/.test(t)){e.stopPropagation();e.preventDefault();toast('Saving and loading files is switched off in this demo. Your own copy does it.');}
+},true);
+// tooltips on the side menu
+var TIPS=CFG.tips||{};
+function tipNav(){qa('#nav a,#nav [data-tab]').forEach(function(a){var k=a.getAttribute('data-tab')||(a.getAttribute('href')||'').slice(1);if(TIPS[k]&&!a.title)a.title=TIPS[k];});}
+function nowrap(root){qa('td',root).forEach(function(td){if(!td.classList.contains('sp-nw')&&(td.textContent.trim().length<=16||td.querySelector('button,select,input,a.btn')))td.classList.add('sp-nw');});}
+var mainEl=q('#main');if(mainEl){new MutationObserver(function(){nowrap(mainEl);}).observe(mainEl,{childList:true});nowrap(mainEl);}
+var nav=q('#nav');if(nav){new MutationObserver(tipNav).observe(nav,{childList:true});tipNav();}
+
+// ---------- guided tour ----------
+var steps=CFG.steps,cur=-1,spot,card,shade;
+function go(hash){if(location.hash!==hash){location.hash=hash;}}
+function wait(ms){return new Promise(function(r){setTimeout(r,ms);});}
+function place(target){
+  var mobile=window.innerWidth<=640;
+  shade.classList.toggle('dim',!target);
+  if(!target){spot.style.display='none';card.classList.add('center');card.style.left='';card.style.top='';return;}
+  card.classList.remove('center');spot.style.display='block';
+  var r=target.getBoundingClientRect(),pad=6;
+  var vh=window.innerHeight,cardH=card.offsetHeight;
+  var maxH=mobile?vh-cardH-40:vh-24;
+  var top=r.top-pad,h=Math.min(r.height+pad*2,Math.max(80,maxH-(r.top-pad)));
+  spot.style.left=Math.max(4,r.left-pad)+'px';spot.style.top=top+'px';spot.style.width=Math.min(window.innerWidth-8,r.width+pad*2)+'px';spot.style.height=h+'px';
+  if(mobile)return;
+  card.classList.remove('dock');cardH=card.offsetHeight;
+  var cw=card.offsetWidth,left=Math.min(Math.max(16,r.left),window.innerWidth-cw-16),below=r.top+h+12;
+  if(below+cardH<vh-12){card.style.left=left+'px';card.style.top=below+'px';return;}
+  if(r.top-cardH-18>12){card.style.left=left+'px';card.style.top=(r.top-cardH-18)+'px';return;}
+  // tall target: dock a slim card along the bottom and trim the spotlight above it
+  card.classList.add('dock');card.style.left='';card.style.top='';
+  var dh=card.offsetHeight;spot.style.height=Math.max(80,Math.min(h,vh-dh-30-top))+'px';
+}
+function scrollTo(target){
+  var mobile=window.innerWidth<=640;
+  var bar=q('#spBar').offsetHeight+(CFG.sticky&&q(CFG.sticky)?q(CFG.sticky).offsetHeight:0),side=0;
+  var r=target.getBoundingClientRect();
+  var y=window.scrollY+r.top-bar-16-side;
+  window.scrollTo({top:Math.max(0,y),behavior:'auto'});
+}
+async function show(i){
+  cur=i;var s=steps[i];document.body.classList.add('sp-touring');
+  if(!spot){shade=document.createElement('div');shade.className='sp-shade';spot=document.createElement('div');spot.className='sp-spot';card=document.createElement('div');card.className='sp-card';card.setAttribute('role','dialog');card.setAttribute('aria-live','polite');document.body.append(shade,spot,card);}
+  if(s.route){var hh=await s.route();if(hh)go(hh);await wait(80);}
+  if(s.before){s.before();await wait(60);}
+  var target=s.target?s.target():null;
+  var last=i===steps.length-1;
+  var dots='<div class="sp-dots">'+steps.map(function(_,k){return '<i class="'+(k<=i?'on':'')+'"></i>';}).join('')+'</div>';
+  if(last){
+    card.innerHTML=dots+'<div class="big">'+SPARK+'<div><div class="k">Sparkit</div><h3>'+s.title+'</h3></div></div><p>'+s.body+'</p>'+(s.list?'<ul>'+s.list.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>':'')+
+    '<div class="acts"><a class="sp-b pri" href="'+STRIPE+'" target="_blank" rel="noopener" id="spGo">Get it set up for $149</a><button class="sp-b sec" type="button" data-sp="end">Keep exploring</button></div>';
+  }else{
+    card.innerHTML=dots+'<div class="k">'+(i+1)+' of '+steps.length+'</div><h3>'+s.title+'</h3><p>'+s.body+'</p><div class="acts">'+
+    (i>0?'<button class="sp-b sec" type="button" data-sp="back">Back</button>':'')+
+    (s.extra?'<button class="sp-b sec" type="button" data-sp="extra">'+s.extra.label+'</button>':'')+
+    '<button class="sp-b pri" type="button" data-sp="next">Next</button><button class="sp-skip" type="button" data-sp="end">Skip tour</button></div>';
+  }
+  if(target){scrollTo(target);await wait(30);}else{window.scrollTo(0,0);}
+  place(target);
+  setTimeout(function(){if(cur===i&&spot){var t2=s.target?s.target():null;if(t2)scrollTo(t2);place(t2);}},260);
+  var f=card.querySelector('[data-sp="next"],#spGo');if(f)f.focus({preventScroll:true});
+}
+function end(){cur=-1;document.body.classList.remove('sp-touring');if(spot){spot.remove();card.remove();shade.remove();spot=card=shade=null;}}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-sp]');if(!b)return;var a=b.getAttribute('data-sp');
+  if(a==='next')show(cur+1);else if(a==='back')show(cur-1);else if(a==='end')end();else if(a==='extra'){steps[cur].extra.run();}
+});
+document.addEventListener('keydown',function(e){if(cur<0||q('.sp-pv'))return;if(e.key==='Escape')end();else if(e.key==='ArrowRight'&&cur<steps.length-1)show(cur+1);else if(e.key==='ArrowLeft'&&cur>0)show(cur-1);});
+function reflow(){if(cur>=0&&steps[cur]){var t=steps[cur].target?steps[cur].target():null;place(t);}}
+window.addEventListener('resize',reflow);window.addEventListener('scroll',function(){if(cur>=0)requestAnimationFrame(reflow);},{passive:true});
+q('#spTourBtn').addEventListener('click',function(){show(0);});
+if(CFG.init)CFG.init({toast:toast,bar:q('#spBar')});
+setTimeout(function(){show(0);},500);
+})();
+</script>
+
+</body>
+</html>
