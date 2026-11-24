@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="Clickable demos of Sparkit's small business apps, with sample data.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>App Demos | Sparkit</title>
+<style>
+:root{--ind:#4047C9;--ind-d:#3439A5;--ind-dd:#262A7E;--ink:#161A3A;--soft:#EEF0FF;--line:#D9DCF5;--muted:#565B7A}
+*{box-sizing:border-box}
+body{margin:0;background:#F6F7FD;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}
+header{background:linear-gradient(90deg,var(--ind-dd),var(--ind));color:#fff;padding:14px 20px}
+.brand{display:flex;align-items:center;gap:10px;max-width:960px;margin:0 auto;font-weight:700;font-size:20px;letter-spacing:-.01em}
+.brand svg{width:34px;height:34px}
+main{max-width:960px;margin:0 auto;padding:36px 20px 48px}
+h1{font-size:clamp(26px,5vw,36px);line-height:1.2;margin:0 0 10px;letter-spacing:-.02em}
+.lede{color:var(--muted);font-size:17px;margin:0 0 8px;max-width:620px}
+.tag{display:inline-flex;align-items:center;gap:8px;background:var(--soft);color:var(--ind-dd);border-radius:999px;padding:5px 12px;font-size:13px;margin:6px 0 26px}
+.tag b{background:var(--ind);color:#fff;border-radius:999px;padding:1px 8px;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+a.card{display:flex;flex-direction:column;gap:8px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s,transform .15s}
+a.card:hover,a.card:focus-visible{border-color:var(--ind);box-shadow:0 8px 24px rgba(64,71,201,.14);transform:translateY(-2px);outline:none}
+.card h2{font-size:19px;margin:0}
+.card p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.go{color:var(--ind-d);font-weight:600;font-size:15px}
+.price{margin-top:32px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.price p{margin:0;font-size:16px;max-width:560px}
+.btn{display:inline-block;background:var(--ind);color:#fff;text-decoration:none;font-weight:600;padding:12px 18px;border-radius:12px}
+.btn:hover{background:var(--ind-d)}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:0 20px 32px}
+</style>
+</head>
+<body>
+<header><div class="brand"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="26" fill="#fff"/><g transform="translate(17 17) scale(.66)"><path d="M50 2C46 35 35 46 8 50C35 54 46 65 50 98Z" fill="#4047C9"/><path d="M50 2C54 35 65 46 92 50C65 54 54 65 50 98Z" fill="#3439A5"/></g></svg>Sparkit</div></header>
+<main>
+<h1>Try the apps before you buy</h1>
+<p class="lede">Each demo is the real app, loaded with a sample business. Click around, take the short tour, and see what it would look like with your own records.</p>
+<span class="tag"><b>Demo</b>Sample data only. Nothing you change is saved.</span>
+<div class="grid">
+<a class="card" href="pool/"><h2>Pool Route Profit Tracker</h2><p>Clients, schedule, a chemical log per pool, printed visit history, invoices and profit per client.</p><span class="go">Open the pool demo →</span></a>
+<a class="card" href="lawn/"><h2>Lawn Care Office</h2><p>Mowing schedule, quotes, invoices and profit per lawn for a regular route.</p><span class="go">Open the lawn demo →</span></a>
+<a class="card" href="cleaning/"><h2>Cleaning Business Pricing and Client Tracker</h2><p>Clients, schedule, quotes, invoices and a visit history for every client.</p><span class="go">Open the cleaning demo →</span></a>
+<a class="card" href="etsy/"><h2>Etsy Seller Profit and Fee Tracker</h2><p>Every Etsy fee itemized, profit per product and the price that hits your margin.</p><span class="go">Open the Etsy demo →</span></a>
+</div>
+<div class="price"><p><b>$149, done for you.</b> Sparkit sets the app up with your own clients or products, so it's ready to use from day one. No monthly fee.</p><a class="btn" href="https://buy.stripe.com/14A8wId3O26q3CUckN6J200" target="_blank" rel="noopener">Get it set up for $149</a></div>
+</main>
+<footer>Made by Sparkit</footer>
+</body>
+</html>
